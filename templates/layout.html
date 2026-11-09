@@ -1,0 +1,48 @@
+{{/* The rivet page: the header; then, in <main>, the bands across the
+     window - the hero (a dark band: a slider fills it, a text block sits
+     in the page's column; the site's slogan over a text block on the
+     front page), the highlight (a band in the accent: figures), the
+     content row (partials/main_column.html), the bands (white and light
+     grey in turn, a block each), the call to action (a dark band) - each
+     only when its region has blocks for this page and it isn't a service
+     page (.servicePage: an editor's form, an error page); the footer. The front page's heading is the
+     site's name, for readers and search engines (the hero's title is the
+     block's own). */}}
+{{template "header" .}}
+
+<main id="main-content" class="r-main">
+    {{if .isHomepage}}<h1 class="visually-hidden">{{.siteName}}</h1>{{end}}
+    {{if and (not .servicePage) (regionHasBlocks "hero" .)}}
+    <div class="r-hero">
+        {{if .isHomepage}}{{with .siteSlogan}}<div class="r-wrap r-hero-kicker"><p class="r-kicker">{{.}}</p></div>{{end}}{{end}}
+        {{template "region_blocks" (dict "Region" (region "hero") "Ctx" .)}}
+    </div>
+    {{end}}
+    {{if and (not .servicePage) (regionHasBlocks "highlight" .)}}
+    <div class="r-band r-highlight">
+        <div class="r-wrap">
+            {{template "region_blocks" (dict "Region" (region "highlight") "Ctx" .)}}
+        </div>
+    </div>
+    {{end}}
+
+    {{template "main_column" .}}
+
+    {{if and (not .servicePage) (regionHasBlocks "bands" .)}}
+    <div class="r-bands">
+        {{template "region_blocks" (dict "Region" (region "bands") "Ctx" .)}}
+    </div>
+    {{end}}
+    {{if and (not .servicePage) (regionHasBlocks "cta" .)}}
+    <div class="r-band r-dark r-cta" id="r-cta">
+        <div class="r-wrap">
+            {{template "region_blocks" (dict "Region" (region "cta") "Ctx" .)}}
+        </div>
+    </div>
+    {{end}}
+</main>
+
+{{/* The enabled modules' markup at the end of the page
+     (page_end_<module>, e.g. the error report form). */}}
+{{moduleHook "page_end" .}}
+{{template "footer" .}}

@@ -1,0 +1,30 @@
+{
+  "contexts": {},
+  "strings": {
+    "Accent colour": "Акцентный цвет",
+    "An industrial company's site - a dark top bar, a front page of bands (a hero slider, figures in the accent, products as cards, projects as dark tiles, a call to action with a form), products with a gallery and a table of their fields, projects with their picture behind the title; square corners, condensed capitals, an accent colour.": "Сайт промышленной компании - тёмная верхняя строка, главная из полос (слайдер на первом экране, цифры в акцентном цвете, продукция карточками, объекты тёмными плитками, призыв к действию с формой), продукция с галереей и таблицей полей, объекты с картинкой за заголовком; прямые углы, узкие заглавные, акцентный цвет.",
+    "Bands": "Полосы",
+    "Blue": "Синий",
+    "Call to action": "Призыв к действию",
+    "Header actions": "Действия в шапке",
+    "Hero": "Первый экран",
+    "Highlight": "Полоса в акцентном цвете",
+    "Logging in and registration in the header": "Вход и регистрация в шапке",
+    "Next slide": "Следующий слайд",
+    "Orange": "Оранжевый",
+    "Previous slide": "Предыдущий слайд",
+    "Red": "Красный",
+    "Request a price": "Запросить цену",
+    "Rivet": "Заклёпка",
+    "Signal yellow": "Сигнальный жёлтый",
+    "Slides": "Слайды",
+    "Top bar": "Верхняя строка",
+    "business": "бизнес",
+    "cards": "карточки",
+    "company": "компания",
+    "industrial": "промышленность",
+    "landing": "лендинг",
+    "slide": "слайд",
+    "slider": "слайдер"
+  }
+}

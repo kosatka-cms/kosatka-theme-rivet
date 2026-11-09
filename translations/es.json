@@ -1,0 +1,30 @@
+{
+  "contexts": {},
+  "strings": {
+    "Accent colour": "Color de acento",
+    "An industrial company's site - a dark top bar, a front page of bands (a hero slider, figures in the accent, products as cards, projects as dark tiles, a call to action with a form), products with a gallery and a table of their fields, projects with their picture behind the title; square corners, condensed capitals, an accent colour.": "El sitio de una empresa industrial - una barra superior oscura, una portada de franjas (un carrusel en la primera pantalla, cifras en el color de acento, productos en tarjetas, proyectos en mosaicos oscuros, una llamada a la acción con un formulario), productos con una galería y una tabla de sus campos, proyectos con su imagen tras el título; esquinas rectas, mayúsculas estrechas, un color de acento.",
+    "Bands": "Franjas",
+    "Blue": "Azul",
+    "Call to action": "Llamada a la acción",
+    "Header actions": "Acciones de la cabecera",
+    "Hero": "Primera pantalla",
+    "Highlight": "Franja en el color de acento",
+    "Logging in and registration in the header": "Acceso y registro en la cabecera",
+    "Next slide": "Diapositiva siguiente",
+    "Orange": "Naranja",
+    "Previous slide": "Diapositiva anterior",
+    "Red": "Rojo",
+    "Request a price": "Pedir precio",
+    "Rivet": "Remache",
+    "Signal yellow": "Amarillo señal",
+    "Slides": "Diapositivas",
+    "Top bar": "Barra superior",
+    "business": "negocios",
+    "cards": "tarjetas",
+    "company": "empresa",
+    "industrial": "industria",
+    "landing": "landing",
+    "slide": "diapositiva",
+    "slider": "carrusel"
+  }
+}

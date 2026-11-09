@@ -1,0 +1,2763 @@
+/* The rivet theme: an industrial company's site over the engine's
+   base.css. A dark line over the header (the top bar: an address, the
+   hours, a phone), a white header with a line in the accent under it; on
+   the front page full-width bands - a dark hero (a slider of slides, or
+   any block), the content, a highlight in the accent (a list there is
+   figures), bands in white and light grey in turn, a dark call to
+   action - each made of the blocks of its region (layout.html); inner
+   pages with a grey band over the title, or a content item's own head
+   (page/node.html: a gallery beside its title, or its picture behind
+   it); a near-black footer. Oswald in capitals for headings, menus and
+   buttons, Inter for the text, square corners, one accent colour (the
+   "accent" setting: data-accent on <html>) - its ink shade for links and
+   text. It styles the engine's own markup and plain HTML in blocks, so
+   no field names of a particular site are assumed. The theme's View
+   templates (views/*.html): cards, tiles, slider. */
+
+:root {
+    --r-bg: #ffffff;
+    --r-soft: #f2f2f2;
+    --r-ink: #1a1a1a;
+    --r-text: #2b2b2b;
+    --r-muted: #5c5c5c;
+    --r-line: #e2e2e2;
+    --r-field-line: #bdbdbd;
+    /* The accent: a signal yellow by default - backgrounds, lines and
+       bands; its ink shade for links and text on white; the text on it
+       dark. */
+    --r-accent: #ffc400;
+    --r-accent-hover: #e6b000;
+    --r-accent-ink: #7a5f00;
+    --r-accent-ink-hover: #4d3c00;
+    --r-on-accent: #1a1a1a;
+    /* The dark bands and the footer. */
+    --r-dark: #1a1a1a;
+    --r-dark-2: #2b2b2b;
+    --r-dark-text: #d6d6d6;
+    --r-dark-line: #3d3d3d;
+    --r-footer: #111111;
+    --r-footer-text: #9a9a9a;
+    --r-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --r-head: "Oswald", "Arial Narrow", "Roboto Condensed", system-ui, sans-serif;
+    --r-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --r-radius: 0;
+    --r-radius-lg: 0;
+    --r-radius-sm: 0;
+    --r-page: 77.5rem;
+    --r-gutter: 1.5rem;
+    --r-band: clamp(3.5rem, 2.5rem + 4vw, 5.5rem);
+}
+
+:root[data-accent="orange"] { --r-accent: #ff7a1a; --r-accent-hover: #ec6a0c; --r-accent-ink: #a34200; --r-accent-ink-hover: #6e2c00; }
+:root[data-accent="red"] { --r-accent: #d7261e; --r-accent-hover: #b71d16; --r-accent-ink: #b71d16; --r-accent-ink-hover: #8a140f; --r-on-accent: #ffffff; }
+:root[data-accent="blue"] { --r-accent: #1f6feb; --r-accent-hover: #1658c4; --r-accent-ink: #1658c4; --r-accent-ink-hover: #0e3f8f; --r-on-accent: #ffffff; }
+
+/* Bootstrap and the engine's components (base.css, profile.css, …) in
+   the theme's colours. */
+:root,
+.mce-content-body {
+    --r-accent-soft: color-mix(in srgb, var(--r-accent) 12%, #ffffff);
+    --bs-body-bg: var(--r-bg);
+    --bs-body-color: var(--r-text);
+    --bs-emphasis-color: var(--r-ink);
+    --bs-heading-color: var(--r-ink);
+    --bs-secondary-color: var(--r-muted);
+    --bs-secondary-bg: var(--r-soft);
+    --bs-tertiary-bg: var(--r-soft);
+    --bs-border-color: var(--r-line);
+    --bs-body-font-family: var(--r-sans);
+    --bs-font-monospace: var(--r-mono);
+    --bs-link-color: var(--r-accent-ink);
+    --bs-link-hover-color: var(--r-accent-ink-hover);
+    --bs-primary: var(--r-accent);
+    --bs-primary-text-emphasis: var(--r-accent-ink);
+    --bs-primary-bg-subtle: var(--r-accent-soft);
+    --bs-primary-border-subtle: color-mix(in srgb, var(--r-accent) 35%, #ffffff);
+    --bs-code-color: var(--r-ink);
+    --bs-border-radius: var(--r-radius-sm);
+    --bs-border-radius-sm: .375rem;
+    --bs-border-radius-lg: var(--r-radius);
+    --kosatka-accent: var(--r-accent-ink);
+    --kosatka-accent-hover: var(--r-accent-ink-hover);
+    --kosatka-radius: var(--r-radius);
+    --kosatka-shadow: none;
+    --kosatka-surface: #ffffff;
+    --kosatka-tint: color-mix(in srgb, var(--r-accent) 9%, transparent);
+    --kosatka-tint-strong: color-mix(in srgb, var(--r-accent) 18%, transparent);
+    --kosatka-line: var(--r-line);
+    --kosatka-link: var(--r-accent-ink);
+    --kosatka-highlight: var(--r-accent);
+    --kosatka-profile-header-bg: linear-gradient(135deg, var(--r-soft), color-mix(in srgb, var(--r-accent) 22%, #ffffff));
+    --kosatka-reading: 100%;
+}
+
+/* An editor's text (TinyMCE: theme_editor_css on a .node-content body)
+   as on the page. */
+.mce-content-body {
+    margin: 1rem;
+    background: #ffffff;
+    color: var(--r-text);
+}
+
+body {
+    background: var(--r-bg);
+    color: var(--r-text);
+    font-family: var(--r-sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+}
+
+a {
+    color: var(--r-accent-ink);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--r-accent-ink-hover);
+    text-decoration: underline;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--r-ink);
+    font-family: var(--r-head);
+    font-weight: 700;
+    letter-spacing: .01em;
+    line-height: 1.1;
+    text-transform: uppercase;
+}
+
+::selection {
+    background: color-mix(in srgb, var(--r-accent) 22%, transparent);
+}
+
+:focus-visible {
+    outline: 2px solid var(--r-accent);
+    outline-offset: 2px;
+}
+
+/* Buttons: the primary in the accent, the others in a line; square-ish
+   corners, bold labels. */
+.btn {
+    --bs-btn-border-radius: var(--r-radius-sm);
+    --bs-btn-font-family: var(--r-head);
+    --bs-btn-font-weight: 600;
+    --bs-btn-padding-x: 1.25rem;
+    --bs-btn-padding-y: .625rem;
+    --bs-btn-focus-box-shadow: 0 0 0 .2rem color-mix(in srgb, var(--r-accent) 30%, transparent);
+}
+
+.btn-primary {
+    --bs-btn-bg: var(--r-accent);
+    --bs-btn-border-color: var(--r-accent);
+    --bs-btn-color: var(--r-on-accent);
+    --bs-btn-hover-bg: var(--r-accent-hover);
+    --bs-btn-hover-border-color: var(--r-accent-hover);
+    --bs-btn-hover-color: var(--r-on-accent);
+    --bs-btn-active-bg: var(--r-accent-hover);
+    --bs-btn-active-border-color: var(--r-accent-hover);
+    --bs-btn-active-color: var(--r-on-accent);
+    --bs-btn-disabled-bg: var(--r-accent);
+    --bs-btn-disabled-border-color: var(--r-accent);
+    --bs-btn-disabled-color: var(--r-on-accent);
+}
+
+.btn-secondary,
+.btn-outline-secondary {
+    --bs-btn-bg: #ffffff;
+    --bs-btn-border-color: var(--r-field-line);
+    --bs-btn-color: var(--r-ink);
+    --bs-btn-hover-bg: #ffffff;
+    --bs-btn-hover-border-color: var(--r-accent);
+    --bs-btn-hover-color: var(--r-ink);
+    --bs-btn-active-bg: #ffffff;
+    --bs-btn-active-border-color: var(--r-accent);
+    --bs-btn-active-color: var(--r-ink);
+    --bs-btn-disabled-bg: #ffffff;
+    --bs-btn-disabled-border-color: var(--r-line);
+    --bs-btn-disabled-color: var(--r-muted);
+}
+
+.btn-outline-primary {
+    --bs-btn-color: var(--r-accent);
+    --bs-btn-border-color: var(--r-accent);
+    --bs-btn-hover-bg: var(--r-accent);
+    --bs-btn-hover-border-color: var(--r-accent);
+    --bs-btn-hover-color: var(--r-on-accent);
+    --bs-btn-active-bg: var(--r-accent);
+    --bs-btn-active-border-color: var(--r-accent);
+    --bs-btn-active-color: var(--r-on-accent);
+}
+
+.text-bg-primary {
+    background-color: var(--r-accent) !important;
+    color: var(--r-on-accent) !important;
+}
+
+/* A text block's links as the theme's buttons (the header's actions, a
+   card in the sidebar): condensed capitals - in the header dark with
+   the accent's colour, in the sidebar in the accent. */
+.r-header-actions .block-content a:not([href^="tel:"]):not([href^="mailto:"]),
+.r-side .block-content p:only-child > a:only-child,
+.r-side .block-content p:last-child > a:only-child {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.875rem;
+    padding: .625rem 1.375rem;
+    border: 2px solid var(--r-accent);
+    background: var(--r-accent);
+    color: var(--r-on-accent);
+    font-family: var(--r-head);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: .02em;
+    line-height: 1.2;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.r-side .block-content p > a:only-child:hover {
+    border-color: var(--r-accent-hover);
+    background: var(--r-accent-hover);
+    color: var(--r-on-accent);
+    text-decoration: none;
+}
+
+.r-header-actions .block-content a:not([href^="tel:"]):not([href^="mailto:"]) {
+    border-color: var(--r-dark);
+    background: var(--r-dark);
+    color: var(--r-accent);
+}
+
+.r-header-actions .block-content a:not([href^="tel:"]):not([href^="mailto:"]):hover {
+    border-color: var(--r-accent);
+    background: var(--r-accent);
+    color: var(--r-on-accent);
+    text-decoration: none;
+}
+
+/* Fields. */
+.form-control,
+.form-select {
+    min-height: 2.875rem;
+    border-color: var(--r-field-line);
+    border-radius: var(--r-radius-sm);
+    background-color: #ffffff;
+    color: var(--r-ink);
+}
+
+textarea.form-control {
+    min-height: 7rem;
+}
+
+.form-control::placeholder {
+    color: var(--r-muted);
+}
+
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+    border-color: var(--r-accent);
+    box-shadow: 0 0 0 .2rem color-mix(in srgb, var(--r-accent) 20%, transparent);
+}
+
+.form-check-input:checked {
+    border-color: var(--r-accent);
+    background-color: var(--r-accent);
+}
+
+.form-label {
+    color: var(--r-ink);
+    font-size: .875rem;
+    font-weight: 700;
+}
+
+/* The page's width: a column centred in the window. */
+.r-wrap {
+    width: 100%;
+    max-width: calc(var(--r-page) + 2 * var(--r-gutter));
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: var(--r-gutter);
+    padding-left: var(--r-gutter);
+}
+
+.r-main {
+    display: block;
+}
+
+/* The top bar: a dark line over the header - a text block, its first
+   paragraph on the left (an address), the others on the right (the
+   hours, a phone in the accent). */
+.r-topbar {
+    background: var(--r-dark);
+    color: #bdbdbd;
+    font-size: .8125rem;
+    line-height: 1.4;
+}
+
+.r-topbar-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .25rem 1.5rem;
+    min-height: 2.375rem;
+    padding-top: .375rem;
+    padding-bottom: .375rem;
+}
+
+.r-topbar .block {
+    flex: 1 1 auto;
+    margin: 0;
+}
+
+.r-topbar .block > h2 {
+    display: none;
+}
+
+.r-topbar .block-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .25rem 1.5rem;
+}
+
+.r-topbar .block-content p {
+    margin: 0;
+}
+
+.r-topbar .block-content p:first-child:not(:only-child) {
+    margin-right: auto;
+}
+
+.r-topbar a {
+    color: var(--r-accent);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.r-topbar a:hover {
+    color: #ffffff;
+}
+
+@media (max-width: 47.99rem) {
+    .r-topbar .block-content p:first-child:not(:only-child) {
+        display: none;
+    }
+}
+
+/* Header: a white bar across the window with a line in the accent under
+   it - the logo and the name, the menu, the actions (a button). It
+   scrolls with the page. Condensed capitals for the name and the menu. */
+.r-header {
+    position: static;
+    border: 0;
+    border-bottom: 4px solid var(--r-accent);
+    background: #ffffff;
+    backdrop-filter: none;
+    box-shadow: none;
+}
+
+.r-header-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .75rem 2rem;
+    min-height: 5rem;
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+}
+
+.r-branding {
+    display: inline-flex;
+    align-items: center;
+    gap: .75rem;
+    min-width: 0;
+    color: var(--r-ink);
+}
+
+.r-branding:hover {
+    color: var(--r-ink);
+    text-decoration: none;
+}
+
+.r-logo {
+    width: auto;
+    height: 2.5rem;
+}
+
+.r-branding .site-name {
+    color: var(--r-ink);
+    font-family: var(--r-head);
+    font-size: 1.625rem;
+    font-weight: 700;
+    letter-spacing: .01em;
+    line-height: 1.1;
+    overflow-wrap: anywhere;
+    text-transform: uppercase;
+}
+
+.r-header .site-header-region {
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
+    min-width: 0;
+}
+
+.r-header .site-header-region .block {
+    margin: 0;
+}
+
+.r-header .site-header-region .block-menu ul.menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .125rem 1.625rem;
+    margin: 0;
+    padding: 0;
+}
+
+.r-header .site-header-region .block-menu a {
+    display: inline-block;
+    padding: .375rem 0;
+    border-bottom: 3px solid transparent;
+    color: var(--r-ink);
+    font-family: var(--r-head);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: .02em;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.r-header .site-header-region .block-menu a:hover,
+.r-header .site-header-region .block-menu .active > a,
+.r-header .site-header-region .block-menu .active-trail > a {
+    border-bottom-color: var(--r-accent);
+    color: var(--r-ink);
+}
+
+/* The language switcher in the header. */
+.r-header .language-switcher .nav-link {
+    padding: .375rem .5rem;
+    color: var(--r-muted);
+    font-size: .875rem;
+    font-weight: 700;
+}
+
+.r-header .language-switcher .nav-link.active,
+.r-header .language-switcher .nav-link:hover {
+    color: var(--r-ink);
+}
+
+.r-header-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .75rem 1.25rem;
+    margin-left: auto;
+}
+
+.r-header-actions .block {
+    margin: 0;
+}
+
+.r-header-actions .block > h2 {
+    display: none;
+}
+
+.r-header-actions .block-content p {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .5rem 1.25rem;
+    margin: 0;
+}
+
+.r-header-actions .block-content a[href^="tel:"],
+.r-header-actions .block-content a[href^="mailto:"] {
+    color: var(--r-ink);
+    font-family: var(--r-head);
+    font-size: 1.125rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.r-header-actions .block-content a:not([href^="tel:"]):not([href^="mailto:"]) {
+    min-height: 3rem;
+    padding: .5rem 1.25rem;
+}
+
+.r-header .site-account {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.r-header .site-account > a {
+    color: var(--r-ink);
+    font-size: .9375rem;
+    font-weight: 600;
+}
+
+.r-header .site-account > a:hover {
+    color: var(--r-accent-ink);
+    text-decoration: none;
+}
+
+/* A signed-in user's menu (the engine's user_menu block, rendered for a
+   signed-in user only, so shown at once, not by app.js): the avatar and
+   the name in a pill, its panel under it. */
+.r-header .desktop-user-menu {
+    display: block !important;
+    height: auto;
+    padding-right: 0;
+}
+
+.r-header .user-menu-toggle {
+    gap: .5rem;
+    padding: .1875rem .875rem .1875rem .1875rem;
+    border: 1px solid var(--r-line);
+    border-radius: 0;
+    background: transparent;
+    color: var(--r-ink);
+    font-size: .875rem;
+    font-weight: 600;
+}
+
+.r-header .user-menu-toggle:hover,
+.r-header .user-menu-toggle.active {
+    border-color: var(--r-accent);
+    background: transparent;
+}
+
+.r-header .user-avatar-small {
+    width: 2rem;
+    height: 2rem;
+    border: 0;
+    border-radius: 50%;
+}
+
+.r-header .user-menu-dropdown .user-name {
+    max-width: 10rem;
+    color: inherit;
+}
+
+.r-header .user-dropdown-menu {
+    top: calc(100% + .5rem);
+    min-width: 260px;
+    padding: .375rem;
+    border: 1px solid var(--r-line);
+    border-radius: var(--r-radius);
+    background: #ffffff;
+    box-shadow: 0 16px 40px rgba(15, 27, 45, .14);
+}
+
+.r-header .user-dropdown-menu .dropdown-item {
+    padding: .5rem .75rem;
+    border-radius: .5rem;
+    color: var(--r-text);
+    font-size: .9375rem;
+}
+
+.r-header .user-dropdown-menu .dropdown-item:hover {
+    background: var(--r-soft);
+    color: var(--r-ink);
+}
+
+/* A narrower screen: the name and the actions in the first row, the
+   menu in a row of its own under them. */
+@media (max-width: 61.98rem) {
+    .r-header-actions {
+        order: 1;
+    }
+
+    .r-header .site-header-region {
+        order: 2;
+        flex-basis: 100%;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .r-header-inner {
+        column-gap: 1rem;
+    }
+
+    .r-logo {
+        height: 2rem;
+    }
+
+    .r-branding .site-name {
+        font-size: 1.25rem;
+    }
+
+    .r-header .site-header-region .block-menu ul.menu {
+        column-gap: 1.125rem;
+    }
+
+    .r-header .site-header-region .block-menu a {
+        font-size: .9375rem;
+    }
+
+    .r-header-actions .block-content a[href^="tel:"] {
+        display: none;
+    }
+
+    .r-header-actions .block-content a:not([href^="tel:"]):not([href^="mailto:"]) {
+        min-height: 2.375rem;
+        padding: .375rem .625rem;
+        font-size: .8125rem;
+    }
+
+    .r-header .user-menu-dropdown .user-name {
+        display: none;
+    }
+
+    .r-header .user-menu-toggle {
+        padding-right: .1875rem;
+    }
+}
+
+/* The bands: a region across the window, its blocks in the page's
+   column. */
+.r-band {
+    padding-top: var(--r-band);
+    padding-bottom: var(--r-band);
+}
+
+.r-band .block,
+.r-bands > * {
+    margin: 0;
+}
+
+.r-band .block > h2,
+.r-bands .block > h2 {
+    margin: 0 0 1rem;
+    font-size: clamp(1.875rem, 1.4rem + 1.4vw, 2.375rem);
+    letter-spacing: -.015em;
+}
+
+/* The hero: a dark band across the window. A slider (views/slider.html)
+   fills it; any other block sits in the page's column - its title large,
+   its text, its links as buttons (the first in the accent, the others in
+   a white line), its picture on the right. The site's slogan over a text
+   block on the front page, as a badge - not over a slider: each slide
+   has its own. */
+.r-hero {
+    background: var(--r-dark-2);
+    color: #ffffff;
+}
+
+.r-hero > .block:not(:has(.r-slider)) {
+    width: 100%;
+    max-width: calc(var(--r-page) + 2 * var(--r-gutter));
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: var(--r-gutter);
+    padding-left: var(--r-gutter);
+}
+
+.r-hero > .block:not(:has(.r-slider)) {
+    padding-top: var(--r-band);
+    padding-bottom: var(--r-band);
+}
+
+.r-hero-kicker {
+    padding-top: var(--r-band);
+}
+
+.r-hero > .r-hero-kicker + .block {
+    padding-top: 0;
+}
+
+.r-hero:has(.r-slider) > .r-hero-kicker {
+    display: none;
+}
+
+.r-hero > .block:has(.r-slider) {
+    margin: 0;
+}
+
+.r-hero > .block:has(.r-slider) > h2 {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+}
+
+.r-kicker,
+.r-badge {
+    display: inline-block;
+    margin: 0 0 1.25rem;
+    padding: .25rem .625rem;
+    background: var(--r-accent);
+    color: var(--r-on-accent);
+    font-family: var(--r-head);
+    font-size: .9375rem;
+    font-weight: 600;
+    letter-spacing: .02em;
+    line-height: 1.4;
+    text-transform: uppercase;
+}
+
+.r-hero .block:not(:has(.r-slider)) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0 3rem;
+    align-items: center;
+}
+
+.r-hero .block:not(:has(.r-slider)) > h2 {
+    max-width: 50rem;
+    margin: 0 0 1.25rem;
+    color: #ffffff;
+    font-size: clamp(2.25rem, 1.4rem + 3.6vw, 4.25rem);
+    line-height: 1.02;
+}
+
+.r-hero .block:not(:has(.r-slider)) > .block-content {
+    display: contents;
+}
+
+.r-hero .block-content > p {
+    max-width: 40rem;
+    margin: 0 0 1.25rem;
+    color: var(--r-dark-text);
+    font-size: 1.1875rem;
+}
+
+.r-hero .block:not(:has(.r-slider)) .block-content p:has(> img) {
+    max-width: none;
+    margin: 0;
+}
+
+.r-hero .block:not(:has(.r-slider)) .block-content img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+@media (min-width: 62rem) {
+    .r-hero .block:not(:has(.r-slider)):has(img) {
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    }
+
+    .r-hero .block:not(:has(.r-slider)):has(img) > * {
+        grid-column: 1;
+    }
+
+    .r-hero .block:not(:has(.r-slider)):has(img) .block-content > p:has(> img) {
+        grid-column: 2;
+        grid-row: 1 / span 9;
+    }
+}
+
+/* Links as buttons, in the hero and on a slide: the first in the accent,
+   the next in a white line - condensed capitals. */
+.r-hero .block-content p:has(> a),
+.r-slide-text p:has(> a) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .75rem;
+    margin-top: 1.75rem;
+}
+
+.r-hero .block-content p:has(> a) > a,
+.r-slide-text p:has(> a) > a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 3.25rem;
+    padding: .625rem 1.625rem;
+    border: 2px solid var(--r-accent);
+    background: var(--r-accent);
+    color: var(--r-on-accent);
+    font-family: var(--r-head);
+    font-size: 1.125rem;
+    font-weight: 600;
+    letter-spacing: .02em;
+    line-height: 1.2;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.r-hero .block-content p:has(> a) > a:hover,
+.r-slide-text p:has(> a) > a:hover {
+    border-color: var(--r-accent-hover);
+    background: var(--r-accent-hover);
+    color: var(--r-on-accent);
+    text-decoration: none;
+}
+
+.r-hero .block-content p:has(> a) > a + a,
+.r-slide-text p:has(> a) > a + a {
+    border-color: #ffffff;
+    background: transparent;
+    color: #ffffff;
+}
+
+.r-hero .block-content p:has(> a) > a + a:hover,
+.r-slide-text p:has(> a) > a + a:hover {
+    border-color: var(--r-accent);
+    background: transparent;
+    color: var(--r-accent);
+}
+
+/* The slider (views/slider.html): one slide at a time (rivet.js) - its
+   picture behind it, darkened from the left; on it the badge, the
+   title, the text and its buttons; at its foot the arrows and a tab per
+   slide (its number and its label; the current one marked by a line in
+   the accent). On a narrow screen the tabs go under the slide. The
+   slides lie in one place, one over another, and keep the height of the
+   tallest, so the page under them doesn't jump; the next fades in over
+   the one before (none without the theme's script: the first shows
+   alone, the others hidden). */
+.r-slider {
+    position: relative;
+    background: var(--r-dark-2);
+    color: #ffffff;
+}
+
+.r-slide {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    min-height: clamp(30rem, 24rem + 16vw, 40rem);
+}
+
+.r-slide[hidden] {
+    display: none;
+}
+
+.r-slider.is-ready .r-slides {
+    display: grid;
+}
+
+.r-slider.is-ready .r-slide {
+    grid-area: 1 / 1;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .7s ease, visibility 0s linear .7s;
+}
+
+.r-slider.is-ready .r-slide.is-current {
+    z-index: 1;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity .7s ease, visibility 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .r-slider.is-ready .r-slide,
+    .r-slider.is-ready .r-slide.is-current {
+        transition: none;
+    }
+}
+
+.r-slide-picture {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+.r-slide-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.r-slide-picture::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(26, 26, 26, .94) 0%, rgba(26, 26, 26, .8) 42%, rgba(26, 26, 26, .2) 100%);
+}
+
+/* On a wide screen the picture fills the slide's right part, cut on a
+   slant, the left one plain dark under the text. */
+@media (min-width: 62rem) {
+    .r-slide-picture {
+        left: 36%;
+        clip-path: polygon(22% 0, 100% 0, 100% 100%, 0 100%);
+    }
+
+    .r-slide-picture::after {
+        background: linear-gradient(90deg, rgba(26, 26, 26, .82) 0%, rgba(26, 26, 26, .35) 45%, rgba(26, 26, 26, .05) 100%);
+    }
+}
+
+.r-slide-body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-top: 5rem;
+    padding-bottom: 2.5rem;
+}
+
+.r-slider.is-ready .r-slide-body {
+    padding-bottom: 8rem;
+}
+
+.r-slide-kicker {
+    margin: 0 0 1.25rem;
+    padding: .25rem .625rem;
+    background: var(--r-accent);
+    color: var(--r-on-accent);
+    font-family: var(--r-head);
+    font-size: .9375rem;
+    font-weight: 600;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+}
+
+.r-slide-title {
+    max-width: 50rem;
+    margin: 0 0 1.25rem;
+    color: #ffffff;
+    font-size: clamp(2.25rem, 1.4rem + 3.6vw, 4.25rem);
+    line-height: 1.02;
+}
+
+.r-slide-text {
+    max-width: 40rem;
+    color: var(--r-dark-text);
+    font-size: 1.1875rem;
+}
+
+.r-slide-text p {
+    margin: 0 0 1rem;
+}
+
+.r-slider-controls {
+    display: none;
+}
+
+.r-slider.is-ready .r-slider-controls {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 1rem 1.5rem;
+    padding-bottom: 2rem;
+}
+
+.r-slider-arrows {
+    display: flex;
+    gap: .5rem;
+}
+
+.r-slider-prev,
+.r-slider-next {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    padding: 0;
+    border: 2px solid #ffffff;
+    background: transparent;
+    color: #ffffff;
+}
+
+.r-slider-next {
+    border-color: var(--r-accent);
+    background: var(--r-accent);
+    color: var(--r-on-accent);
+}
+
+.r-slider-prev:hover {
+    border-color: var(--r-accent);
+    color: var(--r-accent);
+}
+
+.r-slider-next:hover {
+    border-color: var(--r-accent-hover);
+    background: var(--r-accent-hover);
+}
+
+.r-slider-tabs {
+    display: grid;
+    flex: 1 1 32rem;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    gap: .75rem;
+}
+
+.r-slider-tab {
+    display: flex;
+    gap: .625rem;
+    padding: .75rem 0 0;
+    border: 0;
+    border-top: 4px solid rgba(255, 255, 255, .35);
+    background: transparent;
+    color: #bdbdbd;
+    font-family: var(--r-head);
+    font-size: .9375rem;
+    font-weight: 600;
+    letter-spacing: .02em;
+    line-height: 1.3;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.r-slider-tab:hover {
+    color: #ffffff;
+}
+
+.r-slider-tab.is-current {
+    border-top-color: var(--r-accent);
+    color: #ffffff;
+}
+
+.r-slider-tab-number {
+    flex: 0 0 auto;
+    color: var(--r-accent);
+}
+
+.r-slider-tab-label {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+@media (max-width: 47.99rem) {
+    .r-slider.is-ready .r-slide-body {
+        padding-bottom: 2.5rem;
+    }
+
+    .r-slider.is-ready .r-slider-controls {
+        position: static;
+        padding-top: 1.25rem;
+    }
+
+    .r-slider-tabs {
+        flex-basis: 100%;
+        grid-template-columns: minmax(0, 1fr);
+        gap: .25rem;
+    }
+
+    .r-slider-tab {
+        padding: .5rem 0;
+        border-top-width: 0;
+        border-left: 4px solid rgba(255, 255, 255, .35);
+        padding-left: .75rem;
+    }
+
+    .r-slider-tab.is-current {
+        border-left-color: var(--r-accent);
+    }
+}
+
+/* An inner page's head: a grey band with the breadcrumb, the title (in
+   condensed capitals), a content item's actions and its submitted line. */
+.r-pagehead {
+    padding-top: 2.25rem;
+    padding-bottom: 2.75rem;
+    border-bottom: 1px solid var(--r-line);
+    background: var(--r-soft);
+}
+
+.r-pagehead h1,
+.r-pagehead .node-title,
+.r-itemhead .node-title,
+.r-photohead .node-title {
+    max-width: 56rem;
+    margin: 0;
+    color: var(--r-ink);
+    font-size: clamp(2.25rem, 1.6rem + 2.4vw, 3.5rem);
+    font-weight: 700;
+    letter-spacing: .005em;
+    line-height: 1.05;
+}
+
+.r-pagehead .breadcrumb {
+    margin: 0 0 1.25rem;
+}
+
+/* A page whose title is in its content (an editor's form, the login, an
+   error page): the band is a slim strip of the breadcrumb, the title
+   close under it. */
+.r-pagehead:not(:has(h1, .node-title)) {
+    padding-top: .875rem;
+    padding-bottom: .875rem;
+}
+
+.r-pagehead:not(:has(h1, .node-title)) .breadcrumb {
+    margin: 0;
+}
+
+.r-pagehead:not(:has(h1, .node-title)) + .r-page {
+    padding-top: clamp(1.75rem, 1.25rem + 1.5vw, 2.75rem);
+}
+
+.r-pagehead .node-actions,
+.r-pagehead .node-links {
+    margin-top: 1rem;
+}
+
+.r-pagehead .article-meta {
+    margin: 1rem 0 0;
+    padding: 0;
+    border: 0;
+    color: var(--r-muted);
+    font-size: .9375rem;
+}
+
+.breadcrumb {
+    color: var(--r-muted);
+    font-size: .875rem;
+}
+
+.breadcrumb a {
+    color: var(--r-muted);
+}
+
+.breadcrumb a:hover {
+    color: var(--r-accent-ink);
+}
+
+/* The content and the sidebar (partials/main_column.html): side by
+   side on a wide screen, one after the other on a narrower one. */
+.r-page {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 3rem;
+    padding-top: clamp(2.5rem, 2rem + 2vw, 4.5rem);
+    padding-bottom: clamp(3rem, 2.5rem + 2vw, 5rem);
+}
+
+.r-content {
+    min-width: 0;
+}
+
+.r-content > :last-child {
+    margin-bottom: 0;
+}
+
+.r-side {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    min-width: 0;
+}
+
+@media (min-width: 62rem) {
+    .r-page-side {
+        grid-template-columns: minmax(0, 1fr) 18.75rem;
+        align-items: start;
+    }
+}
+
+/* The front page's content (its feed: a View with its header text). */
+.view-header-text h2 {
+    margin: 0 0 .75rem;
+    font-size: clamp(1.875rem, 1.4rem + 1.4vw, 2.375rem);
+    letter-spacing: -.015em;
+}
+
+.view-header-text {
+    max-width: 40rem;
+    margin-bottom: 2rem;
+    color: var(--r-text);
+    font-size: 1.0625rem;
+}
+
+.view-header-text > :last-child {
+    margin-bottom: 0;
+}
+
+.view-header-text a {
+    font-weight: 700;
+}
+
+/* The sidebar: its blocks as bordered cards; a text block whose last
+   line is one link is an offer on the dark ground, its link a button. */
+.r-side .block,
+.r-side > .block-menu,
+.r-side .lazy-block {
+    margin: 0;
+    padding: 1.375rem 1.5rem;
+    border: 1px solid var(--r-line);
+    border-radius: var(--r-radius);
+    background: #ffffff;
+}
+
+/* The region's blocks are in the engine's sidebar section (sidebar.html):
+   one after another, apart. */
+.r-side .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin: 0;
+    padding: 0;
+}
+
+.r-side .block > h2 {
+    margin: 0 0 .75rem;
+    font-size: 1.125rem;
+    letter-spacing: -.01em;
+}
+
+.r-side .block-content > :last-child {
+    margin-bottom: 0;
+}
+
+.r-side .block:has(.block-content > p:last-child > a:only-child) {
+    border-color: var(--r-dark);
+    background: var(--r-dark);
+    color: var(--r-dark-text);
+}
+
+.r-side .block:has(.block-content > p:last-child > a:only-child) > h2 {
+    color: #ffffff;
+}
+
+.r-side .block-content p:last-child > a:only-child {
+    width: 100%;
+    margin-top: .25rem;
+}
+
+/* A list in the sidebar: lines of links. */
+.r-side .item-list:has(> .view-list-item),
+.r-side .block-content ul {
+    display: flex;
+    flex-direction: column;
+    gap: .625rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.r-side .view-list-item,
+.r-side .item-list:has(> .view-list-item .item-field-image) > .view-list-item {
+    display: block;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+.r-side .view-list-item:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.r-side .view-list-item .item-field,
+.r-side .view-list-item .item-field-link {
+    margin: 0;
+    color: var(--r-ink);
+    font-weight: 600;
+}
+
+.r-side .view-list-item .item-field-link:hover {
+    color: var(--r-accent-ink);
+}
+
+/* A content item's page: the fields, the text, the pictures. */
+.r-content article.node {
+    max-width: none;
+    margin: 0;
+}
+
+.r-content .node-content,
+.node-content {
+    color: var(--r-text);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+}
+
+.node-content h2 {
+    margin: 2.5rem 0 1rem;
+    font-size: clamp(1.5rem, 1.25rem + .8vw, 1.875rem);
+}
+
+.node-content h3 {
+    margin: 1.75rem 0 .5rem;
+    font-size: 1.1875rem;
+}
+
+.node-content > :first-child {
+    margin-top: 0;
+}
+
+/* A comfortable line length for the text's paragraphs and headings in a
+   wide column (a page without a sidebar). */
+.node-content > p,
+.node-content > h2,
+.node-content > h3 {
+    max-width: 48rem;
+}
+
+.node-content > p:first-child {
+    color: var(--r-ink);
+    font-size: 1.25rem;
+    line-height: 1.55;
+}
+
+/* A text's list whose items open with a bold phrase: cards in a grid,
+   a tick before each (what a service includes); an ordered one: numbered
+   rows (the stages). */
+.node-content ul:has(> li > strong:first-child) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 1rem;
+    margin: 1.25rem 0 2rem;
+    padding: 0;
+    list-style: none;
+}
+
+.node-content ul:has(> li > strong:first-child) > li {
+    position: relative;
+    margin: 0;
+    padding: 1.125rem 1.25rem 1.125rem 2.75rem;
+    border: 2px solid var(--r-line);
+    border-radius: var(--r-radius);
+    font-size: .9375rem;
+    line-height: 1.55;
+}
+
+.node-content ul:has(> li > strong:first-child) > li::before {
+    content: "";
+    position: absolute;
+    top: 1.3125rem;
+    left: 1.25rem;
+    width: .75rem;
+    height: .75rem;
+    background: var(--r-accent);
+}
+
+.node-content ul:has(> li > strong:first-child) > li > strong:first-child {
+    display: block;
+    color: var(--r-ink);
+    font-size: 1rem;
+}
+
+.node-content ol:has(> li > strong:first-child) {
+    margin: 1.25rem 0 2rem;
+    padding: 0;
+    list-style: none;
+    counter-reset: r-stage;
+}
+
+.node-content ol:has(> li > strong:first-child) > li {
+    display: grid;
+    grid-template-columns: 3.5rem minmax(0, 1fr);
+    margin: 0;
+    padding: 1.125rem 0;
+    border-top: 1px solid var(--r-line);
+    counter-increment: r-stage;
+}
+
+.node-content ol:has(> li > strong:first-child) > li::before {
+    content: counter(r-stage, decimal-leading-zero);
+    grid-row: 1 / span 2;
+    color: var(--r-accent-ink);
+    font-family: var(--r-head);
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.node-content ol:has(> li > strong:first-child) > li > strong:first-child {
+    display: block;
+    color: var(--r-ink);
+    font-size: 1.0625rem;
+}
+
+.node-content table {
+    width: 100%;
+    margin: 1rem 0 2rem;
+    border-collapse: collapse;
+    font-size: .9375rem;
+}
+
+.node-content th,
+.node-content td {
+    padding: .625rem 1rem .625rem 0;
+    border-bottom: 1px solid var(--r-line);
+    text-align: left;
+    vertical-align: top;
+}
+
+.node-content th {
+    width: 35%;
+    color: var(--r-muted);
+    font-weight: 600;
+}
+
+.node-content blockquote {
+    margin: 1.5rem 0;
+    padding: 1.5rem 1.75rem;
+    border: 0;
+    border-left: 4px solid var(--r-accent);
+    background: var(--r-soft);
+    color: var(--r-ink);
+    font-size: 1.1875rem;
+    font-weight: 600;
+}
+
+.node-content code {
+    padding: .125rem .375rem;
+    border-radius: .375rem;
+    background: var(--r-soft);
+    font-size: .875em;
+}
+
+.node-content pre {
+    padding: 1rem 1.25rem;
+    border-radius: var(--r-radius-sm);
+    background: var(--r-soft);
+}
+
+.node-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--r-radius-sm);
+}
+
+/* The other fields (the fact box): a row of facts between hairlines -
+   each label small over its value; the terms as badges. */
+.r-content .item-characteristic {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    gap: 1rem 1.5rem;
+    margin: 0 0 2.25rem;
+    padding: 1.25rem 0;
+    border: 0;
+    border-top: 1px solid var(--r-line);
+    border-bottom: 1px solid var(--r-line);
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+.r-content .item-characteristic > p,
+.r-content .item-characteristic > div {
+    display: flex;
+    flex-direction: column;
+    gap: .125rem;
+    margin: 0;
+    color: var(--r-ink);
+    font-weight: 700;
+}
+
+.r-content .item-characteristic .field-list {
+    color: var(--r-muted);
+    font-size: .8125rem;
+    font-weight: 600;
+}
+
+.r-content .item-characteristic a {
+    font-weight: 700;
+}
+
+/* A taxonomy field without its label: badges, over the other facts. */
+.r-content .item-characteristic > p:has(> a.badge, > .taxonomy-term, > a[href]):not(:has(.field-list)) {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: .5rem;
+}
+
+.r-content .item-characteristic .badge,
+.r-content .item-characteristic > p:not(:has(.field-list)) > a {
+    display: inline-block;
+    padding: .125rem .5rem;
+    background: var(--r-accent);
+    color: var(--r-on-accent);
+    font-family: var(--r-head);
+    font-size: .875rem;
+    font-weight: 600;
+    letter-spacing: .03em;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.r-content .dynamic-field-image {
+    margin: 0 0 2.25rem;
+}
+
+.r-content .dynamic-field-image img,
+.r-content img.dynamic-field-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--r-radius-lg);
+}
+
+.r-content .dynamic-field-richtext {
+    margin-bottom: 2rem;
+}
+
+/* A node's galleries (the galleries module's) and the images of a
+   field with several: rounded corners. */
+.dynamic-field-images-grid img,
+.node-galleries-inner img,
+.galleries-grid img {
+    border-radius: var(--r-radius-sm);
+}
+
+/* The modules' links under a content item (its galleries, say): a row
+   of small pills. */
+.node-module-links {
+    margin: 0 0 1.5rem;
+}
+
+.node-module-links ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.node-module-links ul a,
+.node-module-links-link a {
+    display: inline-block;
+    padding: .375rem .875rem;
+    border: 1px solid var(--r-line);
+    border-radius: 0;
+    color: var(--r-ink);
+    font-size: .875rem;
+    font-weight: 700;
+}
+
+.node-module-links ul a:hover,
+.node-module-links-link a:hover {
+    border-color: var(--r-accent);
+    color: var(--r-accent-ink);
+    text-decoration: none;
+}
+
+/* The Views attached to a content page: a heading, their lists. */
+.view-attachment,
+.view-attachments {
+    margin-top: 3rem;
+}
+
+.view-attachment > h2,
+.view-attachments h2 {
+    margin: 0 0 1.5rem;
+    font-size: clamp(1.5rem, 1.25rem + .8vw, 1.875rem);
+}
+
+/* The theme's View templates. Cards (views/cards.html): a grid, each a
+   bordered card - a picture on top with the first term as a badge over
+   it, or the item's number in a square; the title in condensed capitals,
+   the start of the text, a "more" link at the bottom. */
+.r-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+    gap: 1.25rem;
+}
+
+.r-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 2px solid var(--r-line);
+    background: #ffffff;
+    transition: border-color .15s ease;
+}
+
+.r-card:hover {
+    border-color: var(--r-accent);
+}
+
+.r-card-media {
+    position: relative;
+}
+
+.r-card-image img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+}
+
+.r-card-badge {
+    position: absolute;
+    top: .75rem;
+    left: .75rem;
+    margin: 0;
+    padding: .125rem .5rem;
+    background: var(--r-accent);
+    color: var(--r-on-accent);
+    font-family: var(--r-head);
+    font-size: .8125rem;
+    font-weight: 600;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+}
+
+.r-card-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    margin: 1.5rem 1.5rem 0;
+    background: var(--r-accent);
+    color: var(--r-on-accent);
+    font-family: var(--r-head);
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.r-card-body {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: .5rem;
+    padding: 1.125rem 1.25rem 1.375rem;
+}
+
+.r-card-number + .r-card-body {
+    padding-top: 1rem;
+}
+
+.r-card-terms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .25rem .75rem;
+    margin: 0;
+    color: var(--r-accent-ink);
+    font-family: var(--r-head);
+    font-size: .8125rem;
+    font-weight: 600;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+}
+
+.r-card-title {
+    margin: 0;
+    font-size: 1.3125rem;
+    line-height: 1.2;
+}
+
+.r-card-title a {
+    color: var(--r-ink);
+}
+
+/* The whole card is the title's link. */
+.r-card-title a::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+}
+
+.r-card-title a:hover {
+    color: var(--r-ink);
+    text-decoration: none;
+}
+
+.r-card-text {
+    margin: 0;
+    color: var(--r-muted);
+    font-size: .875rem;
+    line-height: 1.5;
+}
+
+.r-card-more {
+    margin-top: auto;
+    padding-top: .375rem;
+    color: var(--r-accent-ink);
+    font-size: .9375rem;
+    font-weight: 700;
+}
+
+/* Tiles (views/tiles.html): dark tiles in a grid, the picture filling
+   each, darkened at the foot; over it the first term in the accent, the
+   title in white capitals, a line of the text. The whole tile is the
+   title's link. */
+.r-tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+    gap: 1.25rem;
+}
+
+.r-content .r-tiles {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr));
+}
+
+.r-content .r-tile {
+    min-height: 17rem;
+}
+
+.r-tile {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 21rem;
+    overflow: hidden;
+    background: var(--r-dark-2);
+    color: var(--r-dark-text);
+}
+
+.r-tile-picture {
+    position: absolute;
+    inset: 0;
+}
+
+.r-tile-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .3s ease;
+}
+
+.r-tile-picture::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(26, 26, 26, 0) 30%, rgba(26, 26, 26, .92) 100%);
+}
+
+.r-tile:hover .r-tile-picture img {
+    transform: scale(1.04);
+}
+
+.r-tile-body {
+    position: relative;
+    padding: 1.25rem 1.375rem 1.375rem;
+    border-bottom: 4px solid transparent;
+}
+
+.r-tile:hover .r-tile-body {
+    border-bottom-color: var(--r-accent);
+}
+
+.r-tile-kicker {
+    margin: 0 0 .25rem;
+    color: var(--r-accent);
+    font-family: var(--r-head);
+    font-size: .875rem;
+    font-weight: 600;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+}
+
+.r-tile-title {
+    margin: 0;
+    color: #ffffff;
+    font-size: 1.375rem;
+    line-height: 1.15;
+}
+
+.r-tile-title a {
+    color: #ffffff;
+}
+
+.r-tile-title a::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+}
+
+.r-tile-title a:hover {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.r-tile-text {
+    margin: .375rem 0 0;
+    color: #bdbdbd;
+    font-size: .875rem;
+    line-height: 1.45;
+}
+
+/* The bands (layout.html): a block each, across the window - white and
+   light grey in turn; the block's title large, its content in the
+   page's column. A View's header text of one link (all the projects)
+   goes beside the title. */
+.r-bands > * {
+    padding: var(--r-band) max(var(--r-gutter), calc((100% - var(--r-page)) / 2));
+}
+
+.r-bands > :nth-child(even) {
+    background: var(--r-soft);
+}
+
+.r-bands .block-content > :last-child {
+    margin-bottom: 0;
+}
+
+.r-bands .block > h2:not(:has(+ .block-content > .view-header-text:not(:has(> p:only-child > a:only-child)))) {
+    margin-bottom: 2rem;
+}
+
+.r-bands .block:has(> h2 + .block-content > .view-header-text > p:only-child > a:only-child) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: baseline;
+    column-gap: 2rem;
+}
+
+.r-bands .block:has(> h2 + .block-content > .view-header-text > p:only-child > a:only-child) > .block-content {
+    display: contents;
+}
+
+.r-bands .block:has(> h2 + .block-content > .view-header-text > p:only-child > a:only-child) .block-content > :not(.view-header-text) {
+    grid-column: 1 / -1;
+}
+
+.r-bands .block > h2 + .block-content > .view-header-text:has(> p:only-child > a:only-child) {
+    grid-row: 1;
+    grid-column: 2;
+    margin: 0;
+}
+
+.r-bands .block > h2 + .block-content > .view-header-text > p:only-child {
+    margin: 0;
+}
+
+.r-bands .view-header-text > p:only-child > a:only-child {
+    color: var(--r-ink);
+    font-family: var(--r-head);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: .02em;
+    text-decoration: underline;
+    text-decoration-color: var(--r-accent);
+    text-decoration-thickness: 3px;
+    text-underline-offset: .3em;
+    text-transform: uppercase;
+}
+
+.r-bands .view-header-text > p:only-child > a:only-child:hover {
+    color: var(--r-accent-ink);
+}
+
+
+/* A text block opening with a picture (the production): the picture on
+   the left, the title and the text on the right. */
+.r-bands .block:has(> .block-content > p:first-child > img:only-child) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0 3rem;
+    align-items: center;
+}
+
+.r-bands .block:has(> .block-content > p:first-child > img:only-child) > .block-content {
+    display: contents;
+}
+
+.r-bands .block-content > p:first-child:has(> img:only-child) {
+    margin: 0 0 2rem;
+}
+
+.r-bands .block-content > p:first-child > img:only-child {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.r-bands .block:has(> .block-content > p:first-child > img:only-child) .block-content > :not(:first-child) {
+    max-width: 36rem;
+}
+
+@media (min-width: 62rem) {
+    .r-bands .block:has(> .block-content > p:first-child > img:only-child) {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+
+    .r-bands .block:has(> .block-content > p:first-child > img:only-child) > * {
+        grid-column: 2;
+    }
+
+    .r-bands .block-content > p:first-child:has(> img:only-child) {
+        grid-column: 1;
+        grid-row: 1 / span 9;
+        margin: 0;
+    }
+
+    .r-bands .block:has(> .block-content > p:first-child > img:only-child) > h2 {
+        align-self: end;
+    }
+
+    .r-bands .block:has(> .block-content > p:first-child > img:only-child) .block-content > :last-child {
+        align-self: start;
+    }
+}
+
+/* A text block of one paragraph of links (the certificates): the title
+   and the links in a row, each link a box in a dark line. */
+.r-bands .block:has(> .block-content > p:only-child > a + a) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 2rem;
+}
+
+.r-bands > .block:has(> .block-content > p:only-child > a + a) {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+}
+
+.r-bands .block:has(> .block-content > p:only-child > a + a) > h2 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.r-bands .block-content > p:only-child:has(> a + a) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .75rem;
+    margin: 0;
+}
+
+.r-bands .block-content > p:only-child:has(> a + a) > a {
+    display: inline-block;
+    padding: .625rem 1rem;
+    border: 2px solid var(--r-ink);
+    color: var(--r-ink);
+    font-size: .875rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.r-bands .block-content > p:only-child:has(> a + a) > a:hover {
+    border-color: var(--r-accent);
+    background: var(--r-accent);
+    color: var(--r-on-accent);
+}
+
+/* An ordered list in a band (the stages of work): cards in a row, each
+   numbered, its bold first words the title. */
+.r-bands .block-content > ol {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+    gap: 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: r-step;
+}
+
+.r-bands .block-content > ol > li {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    padding: 1.625rem;
+    border-top: 4px solid var(--r-accent);
+    background: #ffffff;
+    color: var(--r-text);
+    font-size: .9375rem;
+    counter-increment: r-step;
+}
+
+.r-bands > :nth-child(odd) .block-content > ol > li {
+    border-right: 2px solid var(--r-line);
+    border-bottom: 2px solid var(--r-line);
+    border-left: 2px solid var(--r-line);
+}
+
+.r-bands .block-content > ol > li::before {
+    content: counter(r-step, decimal-leading-zero);
+    color: var(--r-accent-ink);
+    font-family: var(--r-head);
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.r-bands .block-content > ol > li > strong:first-child {
+    display: block;
+    color: var(--r-ink);
+    font-family: var(--r-head);
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* A plain list in a band, in a text and in the call to action: a small
+   square in the accent before each item. */
+.r-bands .block-content ul:not(:has(> li > strong:first-child)),
+.node-content ul:not(:has(> li > strong:first-child)),
+.r-cta .block-content ul {
+    margin: 0 0 1.25rem;
+    padding: 0;
+    list-style: none;
+}
+
+.r-bands .block-content ul:not(:has(> li > strong:first-child)) > li,
+.node-content ul:not(:has(> li > strong:first-child)) > li,
+.r-cta .block-content ul > li {
+    position: relative;
+    margin: 0 0 .5rem;
+    padding-left: 1.5rem;
+}
+
+.r-bands .block-content ul:not(:has(> li > strong:first-child)) > li::before,
+.node-content ul:not(:has(> li > strong:first-child)) > li::before,
+.r-cta .block-content ul > li::before {
+    content: "";
+    position: absolute;
+    top: .55em;
+    left: 0;
+    width: .5rem;
+    height: .5rem;
+    background: var(--r-accent);
+}
+
+/* The dark bands: the call to action; the footer. */
+.r-dark {
+    background: var(--r-dark);
+    color: var(--r-dark-text);
+}
+
+.r-dark h2,
+.r-dark h3,
+.r-dark strong {
+    color: #ffffff;
+}
+
+.r-dark a {
+    color: var(--r-accent);
+}
+
+.r-dark .block > h2 {
+    color: #ffffff;
+}
+
+/* The highlight: a band in the accent - a list there is figures, each
+   item's bold start large (condensed), the rest under it, a dark line on
+   its left. A block's title is for the editors (shown only when asked). */
+.r-highlight {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    background: var(--r-accent);
+    color: var(--r-on-accent);
+}
+
+.r-highlight a,
+.r-highlight strong {
+    color: var(--r-on-accent);
+}
+
+.r-highlight .block-content > ul,
+.r-highlight .block-content > ol {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 9.5rem), 1fr));
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.r-highlight .block-content > ul > li,
+.r-highlight .block-content > ol > li {
+    display: flex;
+    flex-direction: column;
+    gap: .125rem;
+    padding-left: 1rem;
+    border-left: 4px solid var(--r-on-accent);
+    font-size: .9375rem;
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.r-highlight .block-content li > strong:first-child {
+    font-family: var(--r-head);
+    font-size: clamp(2rem, 1.6rem + 1.4vw, 2.625rem);
+    font-weight: 700;
+    line-height: 1.05;
+}
+
+.r-highlight .block + .block {
+    margin-top: 2rem;
+}
+
+/* The call to action: its blocks side by side on a wide screen - the
+   text (the title large, the contacts under it) and the form, its
+   fields dark. */
+.r-cta .r-wrap {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem 4rem;
+    align-items: start;
+}
+
+@media (min-width: 62rem) {
+    .r-cta .r-wrap:has(> :nth-child(2)) {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+    }
+}
+
+.r-cta .block > h2 {
+    font-size: clamp(2rem, 1.5rem + 1.8vw, 2.75rem);
+}
+
+.r-cta .block-content > p {
+    max-width: 30rem;
+    font-size: 1.0625rem;
+}
+
+.r-cta .block-content a {
+    font-weight: 700;
+}
+
+.r-cta .block-content a:hover {
+    color: #ffffff;
+}
+
+/* A form in a dark band (the forms module's block): dark fields with
+   white labels, the button in the accent across. */
+.r-dark .webform-block {
+    color: var(--r-dark-text);
+}
+
+.r-dark .webform-block > h2,
+.r-dark .webform-block > h3 {
+    display: none;
+}
+
+.r-dark .form-label,
+.r-dark legend,
+.r-dark .form-check-label {
+    color: #ffffff;
+}
+
+.r-dark .form-text {
+    color: #9a9a9a;
+}
+
+.r-dark .form-control,
+.r-dark .form-select {
+    border-color: #4a4a4a;
+    background-color: var(--r-dark-2);
+    color: #ffffff;
+}
+
+.r-dark .form-select {
+    --bs-form-select-bg-img: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+}
+
+.r-dark .form-control::file-selector-button {
+    border-color: #4a4a4a;
+    background: #3d3d3d;
+    color: #ffffff;
+}
+
+.r-dark .form-control:focus,
+.r-dark .form-select:focus {
+    border-color: var(--r-accent);
+    background-color: var(--r-dark-2);
+    color: #ffffff;
+}
+
+.r-dark .form-check-input {
+    border-color: #6a6a6a;
+    background-color: var(--r-dark-2);
+}
+
+.r-dark .form-check-input:checked {
+    border-color: var(--r-accent);
+    background-color: var(--r-accent);
+}
+
+.r-dark .webform-block .btn-primary {
+    width: 100%;
+    min-height: 3.25rem;
+    font-size: 1.125rem;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+}
+
+.r-dark .alert {
+    border-radius: 0;
+}
+
+/* The forms in the content (the forms module's, a profile's…). */
+.webform .form-text,
+.form-text {
+    color: var(--r-muted);
+}
+
+/* The content and profile forms (node-edit-layout): white cards on the
+   soft background; the save card stays right below the admin bar (the
+   header doesn't stick), lifted by a shadow over what scrolls under it. */
+.r-main:has(.node-edit-layout) {
+    background: var(--r-soft);
+}
+
+.r-main .node-edit-layout {
+    --node-edit-sticky-top: 1rem;
+}
+
+.r-main .node-edit-save {
+    box-shadow: 0 8px 28px rgba(15, 27, 45, .14);
+}
+
+/* Lists in the content (the engine's Views without a theme template, a
+   term's page): base.css's cards, in the theme's corners and lines. */
+.item-list:has(> .view-list-item .item-field-image) > .view-list-item,
+.view-list-item.list-grid-item {
+    border: 1px solid var(--r-line);
+    border-radius: var(--r-radius);
+    box-shadow: none;
+}
+
+.item-list:has(> .view-list-item .item-field-image) > .view-list-item:hover,
+.view-list-item.list-grid-item:hover {
+    border-color: color-mix(in srgb, var(--r-accent) 35%, var(--r-line));
+    box-shadow: 0 12px 30px rgba(15, 27, 45, .08);
+    transform: none;
+}
+
+.view-list-item .item-field-link {
+    color: var(--r-ink);
+    font-weight: 700;
+}
+
+.view-list-item .item-field-link:hover {
+    color: var(--r-accent-ink);
+}
+
+/* A View's exposed filters (a catalog): a bordered column on the left of
+   the list on a wide screen, the fields one under another - their labels
+   in condensed capitals, the checkboxes in a column; over the list on a
+   narrow one. */
+.view-exposed-filters {
+    margin-bottom: 2rem !important;
+    padding: 1.25rem 1.5rem 1.5rem;
+    border: 2px solid var(--r-line);
+}
+
+.view-exposed-filters .form-label,
+.view-exposed-filters legend {
+    margin-bottom: .5rem;
+    color: var(--r-ink);
+    font-family: var(--r-head);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+}
+
+.view-exposed-filters .form-check-inline {
+    margin-right: 1.25rem;
+}
+
+@media (min-width: 62rem) {
+    .r-content:has(> .view-exposed-filters) {
+        display: grid;
+        grid-template-columns: 17.5rem minmax(0, 1fr);
+        gap: 0 2rem;
+        align-items: start;
+    }
+
+    .r-content:has(> .view-exposed-filters) > * {
+        grid-column: 2;
+    }
+
+    .r-content > .view-exposed-filters {
+        grid-column: 1;
+        grid-row: 1 / span 20;
+        margin: 0 !important;
+    }
+
+    .r-content > .view-exposed-filters form {
+        flex-direction: column;
+        align-items: stretch !important;
+        --bs-gutter-y: 1.25rem;
+    }
+
+    .r-content > .view-exposed-filters form > * {
+        width: 100%;
+        max-width: none;
+        flex: 0 0 auto;
+    }
+
+    .r-content > .view-exposed-filters .form-check-inline {
+        display: block;
+        margin: 0 0 .375rem;
+    }
+
+    .r-content > .view-exposed-filters .btn-primary {
+        flex: 1 1 auto;
+    }
+}
+
+/* Teasers (a term's page, search). */
+.node-teaser {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--r-line);
+}
+
+.node-teaser-title {
+    font-size: 1.375rem;
+}
+
+.node-teaser-title a {
+    color: var(--r-ink);
+}
+
+/* Paging: square-ish buttons, the current page in the accent. */
+.pagination {
+    --bs-pagination-color: var(--r-ink);
+    --bs-pagination-border-color: var(--r-line);
+    --bs-pagination-hover-color: var(--r-accent);
+    --bs-pagination-hover-bg: var(--r-soft);
+    --bs-pagination-hover-border-color: var(--r-line);
+    --bs-pagination-active-bg: var(--r-accent);
+    --bs-pagination-active-border-color: var(--r-accent);
+    --bs-pagination-focus-box-shadow: 0 0 0 .2rem color-mix(in srgb, var(--r-accent) 25%, transparent);
+    gap: .375rem;
+    margin-top: 2.5rem;
+}
+
+.pagination .page-link {
+    min-width: 2.5rem;
+    border-radius: var(--r-radius-sm) !important;
+    font-weight: 700;
+    text-align: center;
+}
+
+/* Comments. */
+.comments {
+    margin-top: 3rem;
+}
+
+/* Footer: a dark band - the footer region's blocks side by side in
+   columns, then a line with the copyright on the left and the region's
+   other blocks on the right. */
+.r-footer {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: var(--r-footer);
+    color: var(--r-footer-text);
+    font-size: .9375rem;
+}
+
+.r-footer a {
+    color: #ffffff;
+}
+
+.r-footer a:hover {
+    color: #ffffff;
+}
+
+.r-footer-columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+    gap: 2rem 3rem;
+    padding-top: 3.5rem;
+    padding-bottom: 2.5rem;
+}
+
+.r-footer-columns > * {
+    margin: 0;
+}
+
+.r-footer .block > h2,
+.r-footer .block-menu > h2 {
+    margin: 0 0 .875rem;
+    color: #ffffff;
+    font-size: 1rem;
+    letter-spacing: 0;
+}
+
+.r-footer .block-content > :last-child {
+    margin-bottom: 0;
+}
+
+.r-footer .block-menu ul.menu {
+    display: flex;
+    flex-direction: column;
+    gap: .375rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.r-footer .block-menu a {
+    color: var(--r-footer-text);
+}
+
+.r-footer .block-menu a:hover {
+    color: #ffffff;
+}
+
+.r-footer-row {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5rem 2rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    font-size: .875rem;
+}
+
+/* The rule over the line, as wide as the content (not the gutters);
+   none when the footer region is empty. */
+.r-footer-columns + .r-footer-row::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: var(--r-gutter);
+    left: var(--r-gutter);
+    border-top: 1px solid rgba(255, 255, 255, .1);
+}
+
+.r-footer-row .block,
+.r-footer-row p {
+    margin: 0;
+}
+
+.r-footer-row .block > h2 {
+    display: none;
+}
+
+/* A content item's head with its pictures (partials/main_column.html,
+   rivet_gallery_head): the breadcrumb; the pictures on the left - the
+   first large, the others as a row of thumbnails under it (each opens
+   the lightbox) - and on the right the badge, the title, the fields as
+   a table (label left, value right, hairlines, a dark line on top) and
+   the button to the page's call to action. */
+.r-itemhead {
+    padding-top: 1.75rem;
+    padding-bottom: clamp(2.5rem, 2rem + 2vw, 3.5rem);
+}
+
+.r-itemhead + .r-page {
+    padding-top: .5rem;
+}
+
+.r-itemhead .breadcrumb {
+    margin: 0 0 1.5rem;
+}
+
+.r-itemhead-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem 2.5rem;
+    align-items: start;
+}
+
+@media (min-width: 62rem) {
+    .r-itemhead-grid {
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    }
+}
+
+.r-gallery {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: .5rem;
+}
+
+.r-gallery-item {
+    display: block;
+    overflow: hidden;
+    border: 2px solid transparent;
+    background: var(--r-soft);
+}
+
+.r-gallery-item:hover {
+    border-color: var(--r-accent);
+}
+
+.r-gallery-item img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+}
+
+.r-gallery-main {
+    grid-column: 1 / -1;
+    border: 0;
+}
+
+.r-gallery-main img {
+    aspect-ratio: 3 / 2;
+}
+
+.r-itemhead-text .node-header {
+    margin: 0;
+}
+
+.r-itemhead-text .r-badge {
+    margin-bottom: 1rem;
+}
+
+.r-itemhead .node-title {
+    font-size: clamp(2rem, 1.5rem + 1.8vw, 3rem);
+}
+
+.r-itemhead .node-actions,
+.r-itemhead .node-links,
+.r-photohead .node-actions,
+.r-photohead .node-links {
+    margin-top: 1rem;
+}
+
+.r-itemhead .article-meta,
+.r-photohead .article-meta {
+    margin: 1rem 0 0;
+    padding: 0;
+    border: 0;
+    font-size: .9375rem;
+}
+
+.r-itemhead .article-meta {
+    color: var(--r-muted);
+}
+
+.r-specs,
+.r-figures {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+}
+
+.r-specs {
+    margin: 1.75rem 0 0;
+    border-top: 3px solid var(--r-ink);
+}
+
+/* A row: the label on the left, the value (one or several: terms,
+   dates) on the right. */
+.r-specs > p,
+.r-specs > div {
+    display: flow-root;
+    margin: 0;
+    padding: .75rem 0;
+    border-bottom: 1px solid var(--r-line);
+    color: var(--r-ink);
+    font-weight: 700;
+    text-align: right;
+}
+
+.r-specs .field-list {
+    float: left;
+    margin-right: 1.5rem;
+    color: var(--r-muted);
+    font-weight: 400;
+    text-align: left;
+}
+
+.r-specs > p:last-child {
+    margin-bottom: 0;
+}
+
+.r-itemhead-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .75rem;
+    margin: 1.75rem 0 0;
+}
+
+.r-itemhead-actions .btn {
+    min-height: 3.25rem;
+    padding: .625rem 1.75rem;
+    font-size: 1.125rem;
+    text-transform: uppercase;
+}
+
+/* A content item's head with one picture (rivet_photo_head): a dark band,
+   the picture behind it (darkened from the left), the breadcrumb, the
+   badge and the title in white; the fields under it as a band of
+   figures in the accent - each label small over its value, large and
+   condensed, a dark line on its left. */
+.r-photohead {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    min-height: clamp(20rem, 16rem + 12vw, 27rem);
+    background: var(--r-dark-2);
+    color: #ffffff;
+}
+
+.r-photohead-picture {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+.r-photohead-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.r-photohead-picture::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(26, 26, 26, .92) 0%, rgba(26, 26, 26, .72) 50%, rgba(26, 26, 26, .25) 100%);
+}
+
+.r-photohead-text {
+    position: relative;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
+.r-photohead .breadcrumb,
+.r-photohead .breadcrumb a,
+.r-photohead .article-meta {
+    color: #d6d6d6;
+}
+
+.r-photohead .breadcrumb a:hover {
+    color: var(--r-accent);
+}
+
+.r-photohead .r-badge {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.r-photohead .node-header {
+    margin: 0;
+}
+
+.r-photohead .node-title {
+    max-width: 50rem;
+    color: #ffffff;
+}
+
+.r-photohead .node-actions .btn-outline-secondary,
+.r-photohead .node-links a {
+    color: #ffffff;
+}
+
+.r-figures-band {
+    padding-top: 1.75rem;
+    padding-bottom: 1.75rem;
+    background: var(--r-accent);
+    color: var(--r-on-accent);
+}
+
+.r-figures {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+    gap: 1.25rem 1.5rem;
+    margin: 0;
+}
+
+.r-figures > p,
+.r-figures > div {
+    display: block;
+    margin: 0;
+    padding-left: 1rem;
+    border-left: 4px solid var(--r-on-accent);
+    color: var(--r-on-accent);
+    font-family: var(--r-head);
+    font-size: clamp(1.375rem, 1.1rem + .9vw, 1.75rem);
+    font-weight: 700;
+    line-height: 1.15;
+}
+
+.r-figures .field-list {
+    display: block;
+    margin-bottom: .125rem;
+    color: inherit;
+    font-family: var(--r-sans);
+    font-size: .8125rem;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.r-figures a {
+    color: var(--r-on-accent);
+}
+
+/* A file field's line in the content (documents): a white strip with a
+   line in the accent on its left - the name of the file, its size. */
+.r-content .item-characteristic > p:has(> a[download]) {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: .25rem 1rem;
+    padding: .875rem 1rem;
+    border-left: 4px solid var(--r-accent);
+    background: var(--r-soft);
+    color: var(--r-muted);
+    font-size: .875rem;
+    font-weight: 400;
+}
+
+/* A card of a document alone: no lines of the facts around it. */
+.r-content .item-characteristic:has(> p:only-child > a[download]) {
+    gap: .5rem;
+    padding: 0;
+    border: 0;
+}
+
+.r-content .item-characteristic > p:has(> a[download]) > a {
+    color: var(--r-ink);
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+/* A file field's several files (.field-files-line): the label over
+   them, each file a strip like one alone. */
+.r-content .item-characteristic > .field-files-line {
+    display: block;
+    grid-column: 1 / -1;
+    margin: 0;
+    color: var(--r-muted);
+    font-size: .875rem;
+    font-weight: 400;
+}
+
+.r-content .item-characteristic:has(> .field-files-line:only-child) {
+    padding: 0;
+    border: 0;
+}
+
+.r-content .field-files-line > .field-list {
+    display: block;
+    margin-bottom: .5rem;
+}
+
+.r-content .field-files {
+    display: grid;
+    gap: .5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.r-content .field-files > li {
+    padding: .875rem 1rem;
+    border-left: 4px solid var(--r-accent);
+    background: var(--r-soft);
+}
+
+.r-content .field-files > li > a {
+    margin-right: .75rem;
+    color: var(--r-ink);
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+/* The pictures of a field with several in the content (photos from the
+   site): a grid of three, square corners. */
+.r-content .dynamic-field-images-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr));
+    gap: .5rem;
+}
+
+/* The regions' frames of the Blocks page's demo mode (?blocks_demo=1)
+   in a band keep the band's ground. */
+.r-dark .block-region-demo,
+.r-footer .block-region-demo {
+    color: inherit;
+}

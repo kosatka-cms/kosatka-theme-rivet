@@ -1,0 +1,23 @@
+{{/* view_tiles - a View's list as dark tiles (the display's Theme
+     template: tiles): each item's first image field's picture filling
+     the tile (in its list style), darkened at the foot, and over it its
+     first term (a place, a year…) in the accent, its title and its
+     text's first paragraph; the whole tile is the title's link. The
+     pager when the View shows it. */}}
+{{define "view_tiles"}}
+{{if .items}}
+<div class="r-tiles">
+    {{range $it := .items}}
+    <article class="r-tile">
+        {{if $it.MainImage.URI}}<div class="r-tile-picture">{{img (styledPicture $it.MainImage $it.ImageStyle) ""}}</div>{{end}}
+        <div class="r-tile-body">
+            {{range $field, $terms := $it.Terms}}{{range $j, $term := $terms}}{{if eq $j 0}}<p class="r-tile-kicker">{{termName $term}}</p>{{end}}{{end}}{{break}}{{end}}
+            <h3 class="r-tile-title"><a href="{{$it.Node.URL}}">{{$it.Node.Title}}</a></h3>
+            {{with plainLead $it.Body 140}}<p class="r-tile-text">{{.}}</p>{{end}}
+        </div>
+    </article>
+    {{end}}
+</div>
+{{if .showPagination}}{{template "pagination.html" .}}{{end}}
+{{end}}
+{{end}}

@@ -1,0 +1,30 @@
+{
+  "contexts": {},
+  "strings": {
+    "Accent colour": "Akzentfarbe",
+    "An industrial company's site - a dark top bar, a front page of bands (a hero slider, figures in the accent, products as cards, projects as dark tiles, a call to action with a form), products with a gallery and a table of their fields, projects with their picture behind the title; square corners, condensed capitals, an accent colour.": "Die Website eines Industrieunternehmens - eine dunkle Zeile oben, eine Startseite aus Bändern (ein Slider im ersten Bildschirm, Zahlen in der Akzentfarbe, Produkte als Karten, Projekte als dunkle Kacheln, ein Aufruf mit Formular), Produkte mit Galerie und einer Tabelle ihrer Felder, Projekte mit ihrem Bild hinter dem Titel; eckige Ecken, schmale Großbuchstaben, eine Akzentfarbe.",
+    "Bands": "Bänder",
+    "Blue": "Blau",
+    "Call to action": "Handlungsaufruf",
+    "Header actions": "Aktionen im Kopf",
+    "Hero": "Erster Bildschirm",
+    "Highlight": "Band in der Akzentfarbe",
+    "Logging in and registration in the header": "Anmeldung und Registrierung im Kopf",
+    "Next slide": "Nächste Folie",
+    "Orange": "Orange",
+    "Previous slide": "Vorherige Folie",
+    "Red": "Rot",
+    "Request a price": "Preis anfragen",
+    "Rivet": "Niete",
+    "Signal yellow": "Signalgelb",
+    "Slides": "Folien",
+    "Top bar": "Obere Zeile",
+    "business": "Business",
+    "cards": "Karten",
+    "company": "Unternehmen",
+    "industrial": "Industrie",
+    "landing": "Landingpage",
+    "slide": "Folie",
+    "slider": "Slider"
+  }
+}

@@ -1,0 +1,154 @@
+{{/* main_column - the rivet's content row, under the head of the page.
+
+     A content item's head comes from its own data, whatever its type
+     (the lead, worked out below and the same way in page/node.html): its
+     first image field with pictures leads -
+       - several pictures: a gallery head (rivet_gallery_head) - the
+         pictures on the left (the first large, the others under it, all
+         opening in the lightbox), on the right its first term as a
+         badge, the title (node_header: the actions, the submitted line)
+         and its short fields as a table (rivet_facts), a button to the
+         page's call to action when the page has one;
+       - one picture: a photo head (rivet_photo_head) - a dark band with
+         the picture behind the breadcrumb, the badge and the title, and
+         a band of figures in the accent under it (the short fields);
+     an item without pictures, and any other page, get a grey band with
+     the breadcrumb and the title. page/node.html leaves out of the
+     content what the head shows.
+
+     Then the content (the content_top region, content, the
+     content_bottom region) and the sidebar beside it on a wide screen,
+     under it on a narrow one, when its region has blocks for this page
+     and it isn't a service page (.servicePage: error pages, editor
+     forms). The front page has no title band (its hero is the theme's),
+     and no row when it has nothing to show there (no feed, no blocks). */}}
+{{define "main_column"}}
+{{$side := and (not .servicePage) (regionHasBlocks "sidebar" .)}}
+{{$empty := and .isHomepage (not .feedHTML) (not $side) (not (regionHasBlocks "content_top" .)) (not (regionHasBlocks "content_bottom" .))}}
+{{/* The lead: the first image field with pictures (its name, ID, more
+     than one picture), the first taxonomy field with terms (its name, its
+     first term: the badge), whether a short field has a value (rivet_facts says which are
+     short). */}}
+{{$leadName := ""}}{{$leadID := 0}}{{$many := false}}{{$termField := ""}}{{$term := ""}}{{$hasFacts := false}}
+{{if and .item (not .isHomepage)}}
+{{range $sec := .displaySections}}
+    {{if and $sec.Image (eq $leadName "")}}{{with index $.imageFieldItems $sec.Image.ID}}{{$leadName = $sec.Image.MachineName}}{{$leadID = $sec.Image.ID}}{{$many = gt (len .) 1}}{{end}}{{end}}
+    {{if not (or $sec.Group $sec.Body $sec.Image $sec.Formatted $sec.Blocks)}}
+        {{range $f := $sec.Fields}}
+            {{if and (eq (print $f.FieldType) "taxonomy") (eq $termField "")}}{{with index $.taxonomyFieldTerms $f.ID}}{{$termField = $f.MachineName}}{{$term = index . 0}}{{end}}{{end}}
+        {{end}}
+    {{end}}
+{{end}}
+{{range $sec := .displaySections}}
+    {{if not (or $sec.Group $sec.Body $sec.Image $sec.Formatted $sec.Blocks)}}
+        {{range $f := $sec.Fields}}
+            {{$t := print $f.FieldType}}{{if not (or (eq $t "file") (eq $t "reference") (eq $t "user") (eq $t "link") (eq $f.MachineName $termField))}}{{with index $.item.Values $f.ID}}{{$hasFacts = true}}{{end}}{{end}}
+        {{end}}
+    {{end}}
+{{end}}
+{{end}}
+{{$lead := dict "Name" $leadName "ID" $leadID "TermField" $termField "Term" $term "HasFacts" $hasFacts}}
+{{if not .isHomepage}}
+{{if and $leadName $many}}
+{{template "rivet_gallery_head" (dict "Ctx" . "Lead" $lead)}}
+{{else if $leadName}}
+{{template "rivet_photo_head" (dict "Ctx" . "Lead" $lead)}}
+{{else}}
+<div class="r-pagehead">
+    <div class="r-wrap">
+        {{template "breadcrumb" .}}
+        {{if .item}}{{renderOptional "node" "header" .}}{{else}}{{template "title" .}}{{end}}
+    </div>
+</div>
+{{end}}
+{{end}}
+{{if not $empty}}
+<div class="r-wrap r-page{{if $side}} r-page-side{{end}}">
+    <div class="content r-content">
+        {{template "region_blocks" (dict "Region" (region "content_top") "Ctx" .)}}
+
+        {{template "content" .}}
+
+        {{template "region_blocks" (dict "Region" (region "content_bottom") "Ctx" .)}}
+    </div>
+    {{if $side}}<aside class="r-side" aria-label="{{t "Sidebar"}}">{{template "sidebar.html" .}}</aside>{{end}}
+</div>
+{{end}}
+{{end}}
+
+{{/* rivet_gallery_head - a content item whose first image field has
+     several pictures (main_column): the breadcrumb; the pictures and,
+     beside them, the badge, the title and the facts. Takes (dict "Ctx"
+     <the page's data> "Lead" <main_column's lead>). */}}
+{{define "rivet_gallery_head"}}
+{{$ctx := .Ctx}}{{$lead := .Lead}}
+<div class="r-itemhead">
+    <div class="r-wrap">
+        {{template "breadcrumb" $ctx}}
+        <div class="r-itemhead-grid">
+            <div class="r-gallery" data-lightbox>
+                {{range $i, $p := index $ctx.imageFieldItems (index $lead "ID")}}
+                <a href="{{$p.Lightbox.Src}}" class="content-image-link r-gallery-item{{if eq $i 0}} r-gallery-main{{end}}" data-pswp-width="{{$p.Lightbox.Width}}" data-pswp-height="{{$p.Lightbox.Height}}"{{with photoSwipeCaption $p.Alt ""}} data-pswp-caption-html="{{.}}"{{end}}>
+                    {{if eq $i 0}}{{img $p.Picture (or $p.Alt $ctx.item.Node.Title) "loading" "eager" "fetchpriority" "high"}}{{else}}{{img $p.Picture (or $p.Alt $ctx.item.Node.Title)}}{{end}}
+                </a>
+                {{end}}
+            </div>
+            <div class="r-itemhead-text">
+                {{with index $lead "Term"}}<p class="r-badge">{{termName .}}</p>{{end}}
+                {{renderOptional "node" "header" $ctx}}
+                {{if index $lead "HasFacts"}}{{template "rivet_facts" (dict "Ctx" $ctx "Lead" $lead "Class" "r-specs")}}{{end}}
+                {{if regionHasBlocks "cta" $ctx}}<p class="r-itemhead-actions"><a class="btn btn-primary" href="#r-cta">{{t "Request a price"}}</a></p>{{end}}
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}
+
+{{/* rivet_photo_head - a content item whose first image field has one
+     picture (main_column): a dark band, the picture behind the
+     breadcrumb, the badge and the title; then the facts as a band of
+     figures in the accent. Takes (dict "Ctx" "Lead"). */}}
+{{define "rivet_photo_head"}}
+{{$ctx := .Ctx}}{{$lead := .Lead}}
+<div class="r-photohead">
+    {{range $i, $p := index $ctx.imageFieldItems (index $lead "ID")}}{{if eq $i 0}}
+    <div class="r-photohead-picture">{{img $p.Picture "" "loading" "eager" "fetchpriority" "high"}}</div>
+    {{end}}{{end}}
+    <div class="r-wrap r-photohead-text">
+        {{template "breadcrumb" $ctx}}
+        {{with index $lead "Term"}}<p class="r-badge">{{termName .}}</p>{{end}}
+        {{renderOptional "node" "header" $ctx}}
+    </div>
+</div>
+{{if index $lead "HasFacts"}}
+<div class="r-figures-band">
+    <div class="r-wrap">
+        {{template "rivet_facts" (dict "Ctx" $ctx "Lead" $lead "Class" "r-figures")}}
+    </div>
+</div>
+{{end}}
+{{end}}
+
+{{/* rivet_facts - the item's short fields: those of its compact
+     sections (no group, body, picture, module's block), but its files
+     (they stay in the content: documents), its links to other content,
+     to users and elsewhere (they stay in the content too) and its
+     badge's field, as the
+     engine's fact box lines (field_line_<type>, as the content page's
+     factBoxFieldLine renders them) in one card of class
+     Class - r-specs: a table, r-figures: figures. Takes (dict "Ctx"
+     "Lead" "Class"). */}}
+{{define "rivet_facts"}}
+{{$ctx := .Ctx}}{{$termField := index .Lead "TermField"}}
+<div class="item-characteristic {{.Class}}">
+    {{range $sec := $ctx.displaySections}}
+    {{if not (or $sec.Group $sec.Body $sec.Image $sec.Formatted $sec.Blocks)}}
+    {{range $f := $sec.Fields}}
+    {{$t := print $f.FieldType}}{{if not (or (eq $t "file") (eq $t "reference") (eq $t "user") (eq $t "link") (eq $f.MachineName $termField))}}
+    {{renderSuggestion "field_line" (print $f.FieldType) (dict "Field" $f "Value" (index $ctx.item.Values $f.ID) "Terms" (index $ctx.taxonomyFieldTerms $f.ID) "FileLink" (index $ctx.fileFieldLinks $f.ID) "Users" (index $ctx.userFieldUsers $f.ID) "Nodes" (index $ctx.referenceFieldNodes $f.ID))}}
+    {{end}}
+    {{end}}
+    {{end}}
+    {{end}}
+</div>
+{{end}}

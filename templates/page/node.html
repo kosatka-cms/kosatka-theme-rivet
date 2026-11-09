@@ -1,0 +1,37 @@
+{{/* page_node - every content item's page: the engine's page_default
+     without what the rivet's head shows (partials/main_column.html: the
+     title, the actions and the submitted line always; for an item with
+     pictures also the picture field, the badge's taxonomy field and the
+     short fields). The lead is worked out as main_column does: the first
+     image field with pictures, the first taxonomy field with terms, the
+     short fields - those of the compact sections but the files and the
+     links (to content, to users, elsewhere). Then the rest of the fields
+     (the text, the other pictures, the files as documents, the links, the
+     groups) and the footer (the inline region, the
+     attached Views, the comments). */}}
+{{define "page_node"}}
+{{$leadName := ""}}{{$termField := ""}}
+{{range $sec := .displaySections}}
+    {{if and $sec.Image (eq $leadName "")}}{{with index $.imageFieldItems $sec.Image.ID}}{{$leadName = $sec.Image.MachineName}}{{end}}{{end}}
+    {{if not (or $sec.Group $sec.Body $sec.Image $sec.Formatted $sec.Blocks)}}
+        {{range $f := $sec.Fields}}
+            {{if and (eq (print $f.FieldType) "taxonomy") (eq $termField "")}}{{with index $.taxonomyFieldTerms $f.ID}}{{$termField = $f.MachineName}}{{end}}{{end}}
+        {{end}}
+    {{end}}
+{{end}}
+{{$sections := .displaySections}}
+{{if $leadName}}
+{{$sections = $sections.Without $leadName}}
+{{if $termField}}{{$sections = $sections.Without $termField}}{{end}}
+{{range $sec := .displaySections}}
+    {{if not (or $sec.Group $sec.Body $sec.Image $sec.Formatted $sec.Blocks)}}
+        {{range $f := $sec.Fields}}{{$t := print $f.FieldType}}{{if not (or (eq $t "file") (eq $t "reference") (eq $t "user") (eq $t "link"))}}{{$sections = $sections.Without $f.MachineName}}{{end}}{{end}}
+    {{end}}
+{{end}}
+{{end}}
+{{template "node_moderation_notice" .}}
+<article class="node{{template "node_status_class" .}}{{if $leadName}} r-node-led{{end}}">
+    {{template "node_sections" (dict "Ctx" . "Sections" $sections)}}
+    {{template "node_footer" .}}
+</article>
+{{end}}

@@ -1,0 +1,777 @@
+# The rivet theme's demo site (app install -demo-set rivet): a plant
+# making steel structures - its products with their pictures and
+# figures, its projects, its production and documents, contacts and a
+# request form with a drawing, the front page made of the theme's bands
+# (a slider in the hero, figures in the accent, products, the
+# production, projects, certificates, the request). Everything here is
+# ordinary content and blocks, edited in the admin. The pictures, the
+# products' technical sheets and the certificates are the theme's own
+# (demo/images, demo/docs), copied into the site's files on install; the
+# production band's picture is in the theme's static images.
+site:
+  slogan: Steel structures since 1998
+  front_page_view: products_home
+  main_menu: main
+  footer_menu: footer
+
+users:
+  - buyer_alex
+  - buyer_nina
+
+image_styles:
+  - {name: rivet_card, label: Card, width: 720, height: 450, mode: fill, anchor: focal, hidpi: true}
+  - {name: rivet_photo, label: Product photo, width: 1200, height: 800, mode: fill, anchor: focal, hidpi: true}
+  - {name: rivet_wide, label: Wide, width: 1600, height: 900, mode: fill, anchor: focal, hidpi: true}
+  - {name: rivet_tile, label: Tile, width: 800, height: 600, mode: fill, anchor: focal, hidpi: true}
+
+vocabularies:
+  - name: categories
+    label: Product categories
+    path: categories
+    terms: [Frames, Hangars, Tanks, Masts, Stairs and platforms, Custom]
+  - name: purposes
+    label: Purposes
+    path: purposes
+    terms: [Industrial, Civil, Energy, Logistics]
+  - name: locations
+    label: Locations
+    path: locations
+    terms: [Northfield, Eastport, Riverton, Lakeside, Westbrook, Hillcrest]
+  - name: slide_labels
+    label: Slide labels
+    path: slide-labels
+    terms: [Own production since 1998, "Project: Northfield, 2025", New in the plant]
+
+field_storages:
+  - {name: field_photos, type: image, multiple: true}
+  - {name: field_category, type: taxonomy, vocabulary: categories}
+  - {name: field_purpose, type: taxonomy, vocabulary: purposes, multiple: true}
+  - {name: field_size, type: text}
+  - {name: field_steel, type: text}
+  - {name: field_finish, type: text}
+  - {name: field_lead_time, type: text}
+  - {name: field_documents, type: file, multiple: true}
+  - {name: field_location, type: taxonomy, vocabulary: locations}
+  - {name: field_area, type: text}
+  - {name: field_tonnage, type: text}
+  - {name: field_timeline, type: text}
+  - {name: field_client, type: text}
+  - {name: field_products, type: reference, target: [product], multiple: true}
+  - {name: field_site_photos, type: image, multiple: true}
+  - {name: field_slide_label, type: taxonomy, vocabulary: slide_labels}
+  - {name: field_files, type: file, multiple: true}
+
+content_types:
+  - name: product
+    label: Product
+    description: What the plant makes - its pictures, its figures, its documents.
+    path: products
+    comments: hidden
+    fields:
+      - {storage: field_photos, label: Pictures, show_on_detail: true, detail_image_style: rivet_photo, list_image_style: rivet_card, sort_order: 0, display_order: 0}
+      - {storage: field_category, label: Category, show_on_detail: true, sort_order: 10, display_order: 1}
+      - {storage: field_purpose, label: Purpose, show_on_detail: true, show_label: true, sort_order: 20, display_order: 2}
+      - {storage: field_size, label: Size, show_on_detail: true, show_label: true, sort_order: 30, display_order: 3}
+      - {storage: field_steel, label: Steel, show_on_detail: true, show_label: true, sort_order: 40, display_order: 4}
+      - {storage: field_finish, label: Finish, show_on_detail: true, show_label: true, sort_order: 50, display_order: 5}
+      - {storage: field_lead_time, label: Lead time, show_on_detail: true, show_label: true, sort_order: 60, display_order: 6}
+      - {storage: field_documents, label: Documents, show_on_detail: true, show_label: true, sort_order: 80, display_order: 20}
+      - {storage: field_body, label: Description, widget: textarea, text_formats: [basic_html, plain_text], show_on_detail: true, renders_in_body: true, sort_order: 70, display_order: 10}
+  - name: project
+    label: Project
+    description: A structure the plant made and erected - the task, the work, the figures.
+    path: projects
+    comments: hidden
+    fields:
+      - {storage: field_image, label: Cover, show_on_detail: true, detail_image_style: rivet_wide, list_image_style: rivet_tile, sort_order: 0, display_order: 0}
+      - {storage: field_location, label: Location, show_on_detail: true, sort_order: 10, display_order: 1}
+      - {storage: field_area, label: Area, show_on_detail: true, show_label: true, sort_order: 20, display_order: 2}
+      - {storage: field_tonnage, label: Steel, show_on_detail: true, show_label: true, sort_order: 30, display_order: 3}
+      - {storage: field_timeline, label: Timeline, show_on_detail: true, show_label: true, sort_order: 40, display_order: 4}
+      - {storage: field_client, label: Client, show_on_detail: true, show_label: true, sort_order: 50, display_order: 5}
+      - {storage: field_body, label: Description, widget: textarea, text_formats: [basic_html, plain_text], show_on_detail: true, renders_in_body: true, sort_order: 60, display_order: 10}
+      - {storage: field_site_photos, label: From the site, show_on_detail: true, detail_image_style: rivet_card, list_image_style: rivet_card, sort_order: 70, display_order: 20}
+      - {storage: field_products, label: Products used, widget: autocomplete, sort_order: 80, display_order: 30}
+  - name: file_page
+    label: Page with files
+    description: A page with files to download under its text - documents, a price list, company details.
+    path: pages
+    comments: hidden
+    fields:
+      - {storage: field_body, label: Text, widget: textarea, text_formats: [basic_html, plain_text], show_on_detail: true, renders_in_body: true, sort_order: 0, display_order: 0}
+      - {storage: field_files, label: Files, show_on_detail: true, show_label: false, sort_order: 10, display_order: 10}
+  - name: slide
+    label: Slide
+    description: A slide of the front page's slider - its picture, its label, its title and text with buttons; its tab shows the title.
+    path: slides
+    comments: hidden
+    fields:
+      - {storage: field_image, label: Picture, show_on_detail: true, detail_image_style: rivet_wide, list_image_style: rivet_wide, sort_order: 0, display_order: 0}
+      - {storage: field_slide_label, label: Label, show_on_detail: true, sort_order: 10, display_order: 1}
+      - {storage: field_body, label: Text, widget: textarea, text_formats: [basic_html, plain_text], show_on_detail: true, renders_in_body: true, sort_order: 30, display_order: 10}
+
+nodes:
+  - key: slide_plant
+    type: slide
+    title: Steel structures for industry and cities
+    ago: 30d
+    fields:
+      field_image: {file: images/workshop.webp, alt: The assembly hall}
+      field_slide_label: Own production since 1998
+      field_body: |
+        <p>We design, make and erect frames, hangars, tanks and masts - with our own engineers, workshops and crews.</p>
+        <p><a href="#r-cta">Send a drawing for a quote</a> <a href="/products">Product catalogue</a></p>
+  - key: slide_project
+    type: slide
+    title: A 24,000 m² warehouse frame in 7 months
+    ago: 29d
+    fields:
+      field_image: {file: images/prj-logistics.webp, alt: The logistics centre's frame}
+      field_slide_label: "Project: Northfield, 2025"
+      field_body: |
+        <p>1,850 t of steel: the design, the making and the erection by our own crews, while the site next door kept working.</p>
+        <p><a href="#r-cta">Quote a similar project</a> <a href="/projects/logistics-centre">See the project</a></p>
+  - key: slide_paint
+    type: slide
+    title: "A new paint line: 600 t a month"
+    ago: 28d
+    fields:
+      field_image: {file: images/detail-coating.webp, alt: The paint line}
+      field_slide_label: New in the plant
+      field_body: |
+        <p>Shot blasting and two coats of paint in one workshop: parts leave the plant ready to erect.</p>
+        <p><a href="/production">About the production</a></p>
+
+  - key: prod_column
+    type: product
+    title: Column K-1
+    ago: 60d
+    fields:
+      field_photos:
+        - {file: images/column-k1.webp, alt: Column K-1}
+        - {file: images/detail-welding.webp, alt: Welding the flanges}
+        - {file: images/detail-bolts.webp, alt: The base plate's bolts}
+        - {file: images/detail-delivery.webp, alt: Columns on the way to the site}
+      field_category: Frames
+      field_purpose: [Industrial, Civil]
+      field_size: up to 18 m high
+      field_steel: S355
+      field_finish: primer or two coats
+      field_lead_time: from 10 days
+      field_documents:
+        - {file: docs/column-k1-sheet.pdf, name: Column K-1 - technical sheet.pdf}
+        - {file: docs/frames-questionnaire.pdf, name: Frame questionnaire.pdf}
+      field_body: |
+        <p>A welded I-section column for frames of warehouses, workshops and public buildings - to your loads and your heights.</p>
+        <h2>What's included</h2>
+        <ul>
+        <li>The column with its base plate and the brackets for beams.</li>
+        <li>Holes for the bolts, drilled to the drawings.</li>
+        <li>Anchor bolts and a template for the foundation.</li>
+        </ul>
+        <h2>Delivery and erection</h2>
+        <p>Our own trucks deliver within 600 km; our crews erect the frame, or supervise yours.</p>
+  - key: prod_truss
+    type: product
+    title: Roof truss FS-24
+    ago: 59d
+    fields:
+      field_photos:
+        - {file: images/truss-fs24.webp, alt: Roof truss FS-24}
+        - {file: images/site-frame.webp, alt: Trusses on a frame}
+        - {file: images/detail-welding.webp, alt: Welding the joints}
+        - {file: images/detail-coating.webp, alt: In the paint line}
+      field_category: Frames
+      field_purpose: [Industrial, Logistics]
+      field_size: 24 m span
+      field_steel: S355
+      field_finish: two coats
+      field_lead_time: from 14 days
+      field_documents:
+        - {file: docs/truss-fs24-sheet.pdf, name: Roof truss FS-24 - technical sheet.pdf}
+        - {file: docs/frames-questionnaire.pdf, name: Frame questionnaire.pdf}
+      field_body: |
+        <p>A pitched truss of welded tubes for roofs of 18 to 30 m without columns inside.</p>
+        <p>Made in two halves for the road and joined on the site with bolts - no welding at height.</p>
+  - key: prod_hangar
+    type: product
+    title: Arched hangar 18x36
+    ago: 58d
+    fields:
+      field_photos:
+        - {file: images/hangar-arch.webp, alt: Arched hangar}
+        - {file: images/site-crane.webp, alt: Erecting the arches}
+        - {file: images/detail-delivery.webp, alt: The kit on a truck}
+      field_category: Hangars
+      field_purpose: [Industrial, Logistics]
+      field_size: 18 x 36 m
+      field_steel: S275
+      field_finish: hot-dip galvanized
+      field_lead_time: from 30 days
+      field_body: |
+        <p>A hangar ready to erect: arches, purlins, cladding and gates in one kit - a warehouse, a workshop, a hall for machines.</p>
+        <h2>Options</h2>
+        <ul>
+        <li>Insulated walls and roof.</li>
+        <li>Gates up to 6 m wide.</li>
+        <li>Skylights and ventilation.</li>
+        </ul>
+  - key: prod_tank_v
+    type: product
+    title: Vertical tank VT-200
+    ago: 57d
+    fields:
+      field_photos:
+        - {file: images/tank-vertical.webp, alt: Vertical tank VT-200}
+        - {file: images/detail-welding.webp, alt: Welding the shell}
+        - {file: images/detail-coating.webp, alt: Painting inside}
+        - {file: images/detail-bolts.webp, alt: The manhole's flange}
+      field_category: Tanks
+      field_purpose: [Industrial, Energy]
+      field_size: 200 m³, 6.6 m across
+      field_steel: S355
+      field_finish: inside and outside coats
+      field_lead_time: from 45 days
+      field_documents:
+        - {file: docs/tank-vt200-sheet.pdf, name: Vertical tank VT-200 - technical sheet.pdf}
+        - {file: docs/tank-questionnaire.pdf, name: Tank questionnaire.pdf}
+      field_body: |
+        <p>A vertical tank for water, fuel and process liquids, above or below ground.</p>
+        <p>Made in rolled sheets and welded on the site, or whole for up to 100 m³. Tested for tightness before handing over.</p>
+  - key: prod_tank_h
+    type: product
+    title: Horizontal tank HT-50
+    ago: 56d
+    fields:
+      field_photos:
+        - {file: images/tank-horizontal.webp, alt: Horizontal tank HT-50}
+        - {file: images/detail-welding.webp, alt: Welding the ends}
+        - {file: images/detail-delivery.webp, alt: A tank on the way}
+      field_category: Tanks
+      field_purpose: [Industrial, Energy]
+      field_size: 50 m³, 2.8 m across
+      field_steel: S275
+      field_finish: two coats
+      field_lead_time: from 21 days
+      field_body: |
+        <p>A horizontal tank on saddles - for fuel, water and fire reserves. Delivered whole, ready to connect.</p>
+  - key: prod_light_mast
+    type: product
+    title: Lighting mast LM-9
+    ago: 55d
+    fields:
+      field_photos:
+        - {file: images/light-mast.webp, alt: Lighting mast LM-9}
+        - {file: images/detail-coating.webp, alt: Galvanized masts}
+        - {file: images/detail-delivery.webp, alt: Masts on a truck}
+      field_category: Masts
+      field_purpose: [Civil, Energy]
+      field_size: 9 m high
+      field_steel: S275
+      field_finish: hot-dip galvanized
+      field_lead_time: from 7 days
+      field_body: |
+        <p>A tapered mast for car parks, yards and sports grounds, with a frame for floodlights.</p>
+  - key: prod_telecom_mast
+    type: product
+    title: Telecom mast TM-30
+    ago: 54d
+    fields:
+      field_photos:
+        - {file: images/telecom-mast.webp, alt: Telecom mast TM-30}
+        - {file: images/site-crane.webp, alt: Lifting the sections}
+        - {file: images/detail-bolts.webp, alt: The sections' flanges}
+      field_category: Masts
+      field_purpose: [Energy]
+      field_size: 30 m high
+      field_steel: S355
+      field_finish: hot-dip galvanized
+      field_lead_time: from 30 days
+      field_documents: {file: docs/mast-tm30-sheet.pdf, name: Telecom mast TM-30 - technical sheet.pdf}
+      field_body: |
+        <p>A lattice mast for antennas, in 6 m sections joined with bolts, with platforms and a ladder.</p>
+  - key: prod_platform
+    type: product
+    title: Service platform
+    ago: 53d
+    fields:
+      field_photos:
+        - {file: images/service-platform.webp, alt: Service platform}
+        - {file: images/detail-welding.webp, alt: Welding the railing}
+        - {file: images/detail-coating.webp, alt: In the paint line}
+      field_category: Stairs and platforms
+      field_purpose: [Industrial]
+      field_size: to the drawings
+      field_steel: S275
+      field_finish: galvanized or painted
+      field_lead_time: from 14 days
+      field_body: |
+        <p>Platforms with railings and grating floors for servicing machines, tanks and roofs.</p>
+  - key: prod_stairs
+    type: product
+    title: Stair flight SF-45
+    ago: 52d
+    fields:
+      field_photos:
+        - {file: images/stair-flight.webp, alt: Stair flight SF-45}
+        - {file: images/detail-bolts.webp, alt: The stringers' joints}
+        - {file: images/detail-coating.webp, alt: Painted flights}
+      field_category: Stairs and platforms
+      field_purpose: [Industrial, Civil]
+      field_size: 45°, 0.8 to 1.2 m wide
+      field_steel: S275
+      field_finish: galvanized or painted
+      field_lead_time: from 10 days
+      field_body: |
+        <p>A straight flight with grating steps and railings - for workshops, fire escapes and roofs.</p>
+  - key: prod_custom
+    type: product
+    title: Parts to your drawings
+    ago: 51d
+    fields:
+      field_photos:
+        - {file: images/custom-part.webp, alt: A part to the drawings}
+        - {file: images/detail-welding.webp, alt: In the welding shop}
+      field_category: Custom
+      field_purpose: [Industrial, Energy, Civil]
+      field_size: up to 12 m, 20 t
+      field_steel: to the drawings
+      field_finish: to the drawings
+      field_lead_time: from 7 days
+      field_body: |
+        <p>Single parts and series to your drawings: cutting, bending, welding, machining and painting under one roof.</p>
+
+  - key: prj_logistics
+    type: project
+    title: Logistics centre, class A
+    path: projects/logistics-centre
+    ago: 40d
+    fields:
+      field_image: {file: images/prj-logistics.webp, alt: The logistics centre}
+      field_location: Northfield
+      field_area: 24,000 m²
+      field_tonnage: 1,850 t
+      field_timeline: 7 months
+      field_client: Northline Logistics
+      field_products: [prod_column, prod_truss]
+      field_site_photos:
+        - {file: images/site-crane.webp, alt: Lifting the trusses}
+        - {file: images/site-frame.webp, alt: The frame}
+        - {file: images/site-night.webp, alt: The night shift}
+        - {file: images/detail-bolts.webp, alt: The joints}
+        - {file: images/detail-welding.webp, alt: In the workshop}
+        - {file: images/detail-delivery.webp, alt: On the way to the site}
+      field_body: |
+        <p>1,850 t of steel for a warehouse of 24,000 m², erected in one season.</p>
+        <h2>The task</h2>
+        <p>A warehouse of 24,000 m² with a 24 m span, built in one season next to a site that kept working.</p>
+        <h2>What we did</h2>
+        <ul>
+        <li>The design of the frame and its drawings.</li>
+        <li>Columns, trusses and bracing - 1,850 t made in the plant.</li>
+        <li>Shot blasting and two coats of paint.</li>
+        <li>The erection by our own crews, in two shifts.</li>
+        </ul>
+  - key: prj_arena
+    type: project
+    title: Sports arena
+    ago: 34d
+    fields:
+      field_image: {file: images/prj-arena.webp, alt: The sports arena}
+      field_location: Eastport
+      field_area: 9,600 m²
+      field_tonnage: 1,120 t
+      field_timeline: 11 months
+      field_client: Eastport City
+      field_products: [prod_truss, prod_custom]
+      field_site_photos:
+        - {file: images/site-crane.webp, alt: Lifting the roof's arches}
+        - {file: images/site-night.webp, alt: The night shift}
+        - {file: images/detail-welding.webp, alt: In the workshop}
+      field_body: |
+        <p>A roof of 72 m without a single column over the field and its stands.</p>
+        <h2>The task</h2>
+        <p>A roof of 72 m without columns over a field and its stands.</p>
+        <h2>What we did</h2>
+        <ul>
+        <li>Arched trusses made in sections and joined on the ground.</li>
+        <li>Lifting the arches with two cranes.</li>
+        <li>The stands' frame and its stairs.</li>
+        </ul>
+  - key: prj_food
+    type: project
+    title: Food plant workshop
+    ago: 26d
+    fields:
+      field_image: {file: images/prj-food-plant.webp, alt: The food plant}
+      field_location: Riverton
+      field_area: 6,400 m²
+      field_tonnage: 540 t
+      field_timeline: 5 months
+      field_client: Riverton Foods
+      field_products: [prod_column, prod_truss, prod_platform, prod_stairs]
+      field_site_photos:
+        - {file: images/site-frame.webp, alt: The frame}
+        - {file: images/detail-coating.webp, alt: Painting}
+        - {file: images/detail-delivery.webp, alt: The delivery}
+      field_body: |
+        <p>A new workshop with platforms to the machines, beside a line that kept working.</p>
+        <h2>The task</h2>
+        <p>A new workshop beside a working line, with platforms for servicing the machines.</p>
+        <h2>What we did</h2>
+        <ul>
+        <li>The frame, the roof and the walls.</li>
+        <li>Platforms and stairs to the machines.</li>
+        </ul>
+  - key: prj_mall
+    type: project
+    title: Shopping centre
+    ago: 18d
+    fields:
+      field_image: {file: images/prj-mall.webp, alt: The shopping centre}
+      field_location: Lakeside
+      field_area: 15,000 m²
+      field_tonnage: 980 t
+      field_timeline: 8 months
+      field_client: Lakeside Retail
+      field_products: [prod_column, prod_truss]
+      field_site_photos:
+        - {file: images/site-crane.webp, alt: The erection}
+        - {file: images/site-frame.webp, alt: The frame}
+        - {file: images/detail-bolts.webp, alt: The joints}
+      field_body: |
+        <p>Two floors of shops and a car park on the roof, on a frame of 980 t.</p>
+        <h2>The task</h2>
+        <p>Two floors of shops and a roof car park on a frame of 980 t.</p>
+  - key: prj_substation
+    type: project
+    title: Substation, 110 kV
+    ago: 12d
+    fields:
+      field_image: {file: images/prj-substation.webp, alt: The substation}
+      field_location: Westbrook
+      field_area: 1.2 ha
+      field_tonnage: 210 t
+      field_timeline: 4 months
+      field_client: Westbrook Grid
+      field_products: [prod_telecom_mast, prod_light_mast, prod_custom]
+      field_site_photos:
+        - {file: images/site-crane.webp, alt: Lifting the portals}
+        - {file: images/detail-bolts.webp, alt: The portals' joints}
+        - {file: images/detail-coating.webp, alt: Galvanized steel}
+      field_body: |
+        <p>Portals, supports and masts for a 110 kV substation, erected in winter.</p>
+        <h2>The task</h2>
+        <p>Portals, supports for the equipment and masts for a substation - galvanized, to be erected in winter.</p>
+  - key: prj_bridge
+    type: project
+    title: Pedestrian bridge
+    ago: 6d
+    fields:
+      field_image: {file: images/prj-bridge.webp, alt: The pedestrian bridge}
+      field_location: Hillcrest
+      field_area: 64 m span
+      field_tonnage: 320 t
+      field_timeline: 6 months
+      field_client: Hillcrest Council
+      field_products: [prod_custom, prod_stairs]
+      field_site_photos:
+        - {file: images/site-night.webp, alt: Placing the span at night}
+        - {file: images/site-crane.webp, alt: The crane}
+        - {file: images/detail-welding.webp, alt: In the workshop}
+      field_body: |
+        <p>A 64 m arch over a railway, placed in one night.</p>
+        <h2>The task</h2>
+        <p>A 64 m arch over a railway, placed in one night while the line was closed.</p>
+
+  - key: production
+    type: page
+    title: Production
+    path: production
+    ago: 70d
+    fields:
+      field_body: |
+        <p>18,000 m² of workshops on one site: from a sheet of steel to a painted part ready to erect.</p>
+        <h2>The workshops</h2>
+        <ul>
+        <li><strong>Cutting.</strong> Plasma and laser cutting of sheets up to 40 mm, band saws for sections.</li>
+        <li><strong>Welding.</strong> Automatic and manual welding, certified welders.</li>
+        <li><strong>Painting.</strong> Shot blasting and a paint line for 600 t a month.</li>
+        <li><strong>Quality.</strong> A laboratory checking the welds and the coats.</li>
+        </ul>
+        <h2>How an order goes</h2>
+        <ol>
+        <li><strong>Request.</strong> A drawing or a task - the price within two days.</li>
+        <li><strong>Design.</strong> Our engineers make the drawings for the plant.</li>
+        <li><strong>Making.</strong> Cutting, welding, painting, checking.</li>
+        <li><strong>Delivery and erection.</strong> Our trucks and our crews.</li>
+        </ol>
+  - key: documents
+    type: file_page
+    title: Documents
+    path: documents
+    ago: 70d
+    fields:
+      field_body: |
+        <p>Our certificates and approvals. The products' technical sheets are on their pages; ask for anything else with your request.</p>
+      field_files:
+        - {file: docs/cert-iso-9001.pdf, name: ISO 9001 - quality management.pdf}
+        - {file: docs/cert-en-1090.pdf, name: EN 1090-2 EXC3 - steel structures.pdf}
+        - {file: docs/cert-iso-3834.pdf, name: ISO 3834-2 - welding quality.pdf}
+        - {file: docs/cert-fire-safety.pdf, name: Fire safety - coats for steel.pdf}
+  - key: contacts
+    type: page
+    title: Contacts
+    path: contacts
+    ago: 70d
+    fields:
+      field_body: |
+        <p>An engineer answers within a working day. Send us a drawing or describe the task - with the form below or by e-mail.</p>
+        <h2>Sales</h2>
+        <ul>
+        <li>Phone: <a href="tel:+15550100000">+1 555 010 0000</a>, Mon-Fri 8:00-18:00</li>
+        <li>E-mail: <a href="mailto:sales@example.com">sales@example.com</a></li>
+        </ul>
+        <h2>The plant</h2>
+        <p>14 Foundry Road, Northfield. Trucks enter through gate 2.</p>
+        <h2>Company details</h2>
+        <table>
+        <tbody>
+        <tr><th>Name</th><td>Brackwell Steel Ltd</td></tr>
+        <tr><th>Company number</th><td>00000000</td></tr>
+        <tr><th>VAT number</th><td>XX 000 0000 00</td></tr>
+        </tbody>
+        </table>
+
+views:
+  - name: slides
+    label: Front page slider
+    display_type: block
+    theme_template: slider
+    page_size: 5
+    fields:
+      - {builtin: title}
+    filters:
+      - {builtin: content_type, operator: eq, value: slide}
+      - {builtin: status, operator: eq, value: "1"}
+    sorts:
+      - {builtin: created_at, direction: asc}
+  - name: products_home
+    label: Products on the front page
+    display_type: block
+    theme_template: cards
+    page_size: 6
+    header: <h2>Products</h2><p>Made in series and to customers' drawings, in our own workshops.</p>
+    fields:
+      - {builtin: title, link_to: content}
+    filters:
+      - {builtin: content_type, operator: eq, value: product}
+      - {builtin: status, operator: eq, value: "1"}
+    sorts:
+      - {builtin: created_at, direction: asc}
+  - name: products
+    label: Products
+    display_type: page
+    path: products
+    theme_template: cards
+    pager: true
+    page_size: 9
+    header: <p>Made in series and to customers' drawings. The price depends on the quantity and the timeline - send us the task for a quote.</p>
+    fields:
+      - {builtin: title, link_to: content}
+    filters:
+      - {builtin: content_type, operator: eq, value: product}
+      - {builtin: status, operator: eq, value: "1"}
+      - {storage: field_category, operator: in, exposed: category, exposed_label: Category}
+      - {storage: field_purpose, operator: eq, exposed: purpose, exposed_label: Purpose}
+      - {builtin: title, operator: contains, exposed: q, exposed_label: Search by name}
+    sorts:
+      - {builtin: created_at, direction: asc, exposed: catalogue, exposed_label: As in the catalogue}
+      - {builtin: title, direction: asc, exposed: title, exposed_label: By name}
+  - name: products_similar
+    label: Similar products
+    display_type: attachment
+    attach_types: [product]
+    attach_title: Similar products
+    theme_template: cards
+    page_size: 4
+    fields:
+      - {builtin: title, link_to: content}
+    filters:
+      - {builtin: content_type, operator: eq, value: product}
+      - {builtin: status, operator: eq, value: "1"}
+      - {builtin: similar_to_current_node, operator: eq, contextual: true}
+    sorts:
+      - {builtin: created_at, direction: asc}
+  - name: projects_with_product
+    label: Projects with this product
+    display_type: attachment
+    attach_types: [product]
+    attach_title: Where it was used
+    theme_template: tiles
+    page_size: 3
+    fields:
+      - {builtin: title, link_to: content}
+    filters:
+      - {builtin: content_type, operator: eq, value: project}
+      - {builtin: status, operator: eq, value: "1"}
+      - {storage: field_products, operator: related_to_current, contextual: true}
+    sorts:
+      - {builtin: created_at, direction: desc}
+  - name: products_in_project
+    label: Products used in the project
+    display_type: attachment
+    attach_types: [project]
+    attach_title: Products used
+    theme_template: cards
+    page_size: 8
+    fields:
+      - {builtin: title, link_to: content}
+    filters:
+      - {builtin: content_type, operator: eq, value: product}
+      - {builtin: status, operator: eq, value: "1"}
+      - {storage: field_products, operator: referenced_by_current, contextual: true}
+    sorts:
+      - {builtin: created_at, direction: asc}
+  - name: projects_home
+    label: Projects on the front page
+    display_type: block
+    theme_template: tiles
+    page_size: 3
+    header: <p><a href="/projects">All projects &rarr;</a></p>
+    fields:
+      - {builtin: title, link_to: content}
+    filters:
+      - {builtin: content_type, operator: eq, value: project}
+      - {builtin: status, operator: eq, value: "1"}
+    sorts:
+      - {builtin: created_at, direction: desc}
+  - name: projects
+    label: Projects
+    display_type: page
+    path: projects
+    theme_template: tiles
+    pager: true
+    page_size: 9
+    header: <p>Warehouses, plants, arenas and bridges - made in our workshops and erected by our crews.</p>
+    fields:
+      - {builtin: title, link_to: content}
+    filters:
+      - {builtin: content_type, operator: eq, value: project}
+      - {builtin: status, operator: eq, value: "1"}
+    sorts:
+      - {builtin: created_at, direction: desc}
+  - name: projects_other
+    label: Other projects
+    display_type: attachment
+    attach_types: [project]
+    attach_title: Other projects
+    theme_template: tiles
+    page_size: 3
+    fields:
+      - {builtin: title, link_to: content}
+    filters:
+      - {builtin: content_type, operator: eq, value: project}
+      - {builtin: status, operator: eq, value: "1"}
+    sorts:
+      - {builtin: created_at, direction: desc}
+
+# A block's weight orders it in its region (0 - its place in this list,
+# times ten).
+blocks:
+  # The top bar: the address on the left, the hours and the phone on the
+  # right; the header's button goes to the request at the page's end.
+  - region: top_bar
+    weight: 1
+    title: Address and phone
+    body: <p>14 Foundry Road, Northfield</p><p>Mon-Fri 8:00-18:00 &middot; <a href="tel:+15550100000">+1 555 010 0000</a></p>
+  - region: header_actions
+    weight: 1
+    title: Request a price
+    body: <p><a href="#r-cta">Request a price</a></p>
+  # The front page: the slider, the figures, the bands.
+  - {region: hero, visibility: homepage, weight: 1, view: slides, title: Slides}
+  - region: highlight
+    visibility: homepage
+    weight: 1
+    title: Figures
+    body: <ul><li><strong>1,200 t</strong> of steel structures a month</li><li><strong>18,000 m²</strong> of workshops</li><li><strong>450+</strong> projects delivered</li><li><strong>32</strong> regions supplied</li></ul>
+  - region: bands
+    visibility: homepage
+    weight: 1
+    title: Production
+    show_title: true
+    body: |
+      <p><img src="/static/themes/rivet/images/workshop.webp" alt="The assembly hall" width="1440" height="810"></p>
+      <p>18,000 m² of workshops on one site: cutting, welding, painting and a laboratory for the welds - from a sheet of steel to a part ready to erect.</p>
+      <ul><li>Plasma and laser cutting up to 40 mm</li><li>Automatic welding, certified welders</li><li>A paint line for 600 t a month</li><li>Our own trucks and erection crews</li></ul>
+      <p><a href="/production">About the production &rarr;</a></p>
+  - {region: bands, visibility: homepage, weight: 10, view: projects_home, title: Projects, show_title: true}
+  - region: bands
+    visibility: homepage
+    weight: 20
+    title: Certificates and approvals
+    show_title: true
+    body: <p><a href="/documents">ISO 9001</a> <a href="/documents">EN 1090-2, EXC3</a> <a href="/documents">ISO 3834-2</a> <a href="/documents">Fire safety</a></p>
+  # Every page ends with the request: a text, then the form (the forms
+  # module's block, modules.forms.block).
+  - region: cta
+    weight: 1
+    title: Get a quote
+    show_title: true
+    body: |
+      <p>Send us a drawing or describe the task - an engineer gets back to you within a working day.</p>
+      <p><a href="tel:+15550100000">+1 555 010 0000</a> &middot; <a href="mailto:sales@example.com">sales@example.com</a></p>
+  # A project's page: an offer beside the text.
+  - region: sidebar
+    types: [project]
+    weight: 1
+    title: A similar project?
+    show_title: true
+    body: <p>Send us the task - we'll estimate the cost and the timeline.</p><p><a href="#r-cta">Send a request</a></p>
+  # The footer: about, the links, the contacts.
+  - region: footer
+    weight: -10
+    title: Brackwell Steel
+    show_title: true
+    body: <p>Steel structures for industry and cities - design, making and erection since 1998.</p>
+  - region: footer
+    weight: 20
+    title: Contacts
+    show_title: true
+    body: <p><a href="tel:+15550100000">+1 555 010 0000</a><br><a href="mailto:sales@example.com">sales@example.com</a><br>14 Foundry Road, Northfield</p>
+
+menus:
+  - name: main
+    links:
+      - {title: Products, view: products}
+      - {title: Production, node: production}
+      - {title: Projects, view: projects}
+      - {title: Documents, node: documents}
+      - {title: Contacts, node: contacts}
+  - name: footer
+    label: Sections
+    region: footer
+    links:
+      - {title: Products, view: products}
+      - {title: Production, node: production}
+      - {title: Projects, view: projects}
+      - {title: Documents, node: documents}
+      - {title: Contacts, node: contacts}
+
+modules:
+  forms:
+    title: Request
+    description: Send us a drawing or describe the task - an engineer gets back to you within a working day.
+    confirmation: Thank you! We've got your request - an engineer will get back to you within a working day.
+    submit: Send the request
+    elements:
+      - {name: name, type: text, label: Name, required: true}
+      - {name: phone, type: text, label: Phone or e-mail, required: true}
+      - {name: task, type: textarea, label: The task}
+      - {name: drawing, type: file, label: A drawing or a specification}
+      - {name: consent, type: consent, label: I agree to the processing of my personal data}
+    submissions:
+      - {author: buyer_alex, values: {name: Alex, phone: buyer_alex@example.com, task: A frame for a 3000 m² warehouse with a 24 m span., consent: "1"}}
+      - {author: buyer_nina, values: {name: Nina, phone: buyer_nina@example.com, task: Four 50 m³ tanks for a fuel depot., consent: "1"}}
+    block: {region: cta, weight: 10}

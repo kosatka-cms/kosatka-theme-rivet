@@ -1,0 +1,51 @@
+{{/* view_slider - a View's list as a slider across the window (the
+     display's Theme template: slider; the hero region's, on the front
+     page): a slide per item - its first image field's picture behind it
+     (in its list style), its first term as a badge, its title, its text
+     (the body as written: a paragraph of links in it is the slide's
+     buttons, rivet.css) - and under the slides the arrows and a tab per
+     slide (its number and its title) to go to it. One slide
+     shows at a time; there is no autoplay - the first slide carries the
+     page's message, the tabs show what else there is. The theme's script
+     (rivet.js, the rivetSlider behavior) switches them, the next fading
+     in; without it the first slide shows alone. */}}
+{{define "view_slider"}}
+{{if .items}}
+<div class="r-slider" data-r-slider role="region" aria-roledescription="{{t "slider"}}" aria-label="{{t "Slides"}}">
+    <div class="r-slides">
+        {{range $i, $it := .items}}
+        <div class="r-slide{{if eq $i 0}} is-current{{end}}" id="r-slide-{{$it.Node.ID}}" role="group" aria-roledescription="{{t "slide"}}" aria-label="{{add $i 1}} / {{len $.items}}"{{if ne $i 0}} hidden{{end}}>
+            {{if $it.MainImage.URI}}
+            <div class="r-slide-picture">{{if eq $i 0}}{{img (styledPicture $it.MainImage $it.ImageStyle) "" "loading" "eager" "fetchpriority" "high"}}{{else}}{{img (styledPicture $it.MainImage $it.ImageStyle) ""}}{{end}}</div>
+            {{end}}
+            <div class="r-wrap r-slide-body">
+                {{range $field, $terms := $it.Terms}}{{range $j, $term := $terms}}{{if eq $j 0}}<p class="r-slide-kicker">{{termName $term}}</p>{{end}}{{end}}{{break}}{{end}}
+                <h2 class="r-slide-title">{{$it.Node.Title}}</h2>
+                {{with $it.Body}}<div class="r-slide-text">{{processText . 0}}</div>{{end}}
+            </div>
+        </div>
+        {{end}}
+    </div>
+    {{if gt (len .items) 1}}
+    <div class="r-wrap r-slider-controls">
+        <div class="r-slider-arrows">
+            <button type="button" class="r-slider-prev" data-r-slider-prev aria-label="{{t "Previous slide"}}">
+                <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M15 5l-7 7 7 7"/></svg>
+            </button>
+            <button type="button" class="r-slider-next" data-r-slider-next aria-label="{{t "Next slide"}}">
+                <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M9 5l7 7-7 7"/></svg>
+            </button>
+        </div>
+        <div class="r-slider-tabs" role="tablist" aria-label="{{t "Slides"}}">
+            {{range $i, $it := .items}}
+            <button type="button" class="r-slider-tab{{if eq $i 0}} is-current{{end}}" role="tab" aria-selected="{{if eq $i 0}}true{{else}}false{{end}}" aria-controls="r-slide-{{$it.Node.ID}}" data-r-slider-tab="{{$i}}">
+                <span class="r-slider-tab-number">{{printf "%02d" (add $i 1)}}</span>
+                <span class="r-slider-tab-label">{{$it.Node.Title}}</span>
+            </button>
+            {{end}}
+        </div>
+    </div>
+    {{end}}
+</div>
+{{end}}
+{{end}}

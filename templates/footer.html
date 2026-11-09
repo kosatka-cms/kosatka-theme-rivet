@@ -1,0 +1,20 @@
+{{/* The rivet footer, a dark band: the footer region's blocks side by
+     side in columns, then a line with the footer_bottom region (the
+     copyright block, the theme's - theme.yaml "blocks" - on the left, the
+     region's other blocks on the right); the engine's scripts, the
+     theme's (rivet.js) and the document end (html_scripts, html_end). */}}
+{{define "footer"}}
+<footer class="site-footer r-footer">
+    {{if regionHasBlocks "footer" .}}
+    <div class="r-wrap site-footer-region r-footer-columns">
+        {{template "region_blocks" (dict "Region" (region "footer") "Ctx" .)}}
+    </div>
+    {{end}}
+    <div class="r-wrap r-footer-row">
+        {{template "region_blocks" (dict "Region" (region "footer_bottom") "Ctx" .)}}
+    </div>
+</footer>
+{{template "html_scripts" .}}
+<script src="{{ themeJS "rivet" }}" defer></script>
+{{template "html_end" .}}
+{{end}}

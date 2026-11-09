@@ -1,0 +1,109 @@
+# The rivet theme: an industrial company's site - a plant, a builder, a
+# workshop. A dark top bar (an address, the hours, a phone), a white
+# header with a line in the accent under it - the logo, the menu, a
+# button; the front page as full-width bands - a dark hero (a slider of
+# slides, or any block), the content, a highlight in the accent
+# (figures), bands in white and light grey in turn, a dark call to
+# action - each made of ordinary blocks; inner pages with a grey band
+# over the title, or the content item's own head: its pictures as a
+# gallery beside its title and fields, or its one picture behind the
+# title and the fields as figures under it; a near-black footer. Its
+# lists (Views) may use the theme's templates: cards, tiles, slider.
+# Oswald in capitals for headings, Inter for the text, square corners,
+# an accent colour chosen on the Appearance page. It keeps the engine's
+# regions, so blocks placed for another theme stay where they are, and
+# adds the top bar and the bands.
+name: Rivet
+# favicon, logo - the theme's icon and logo: a signal-yellow square with a
+# rivet (the site's, uploaded on Site information, replace them).
+favicon: /static/themes/rivet/images/rivet-icon.svg
+logo: /static/themes/rivet/images/rivet-icon.svg
+# The theme's description (Appearance page; entity.ThemeInfo).
+description: An industrial company's site - a dark top bar, a front page of bands (a hero slider, figures in the accent, products as cards, projects as dark tiles, a call to action with a form), products with a gallery and a table of their fields, projects with their picture behind the title; square corners, condensed capitals, an accent colour.
+author: Kosatka
+license: MIT
+# version - this release (the tag vX.Y.Z without its "v"); min_version -
+# the oldest engine release the theme works with.
+version: 0.1.0
+min_version: 0.1.8
+homepage: https://github.com/kosatka-cms/kosatka-theme-rivet
+tags: [light, dark, business, company, industrial, landing, cards, responsive]
+screenshot: screenshot.jpg
+# default_region - where new blocks go.
+default_region: bands
+regions:
+  # A dark line over the header: a text block - its first paragraph on
+  # the left (an address), the others on the right (the hours, a phone).
+  - id: top_bar
+    label: Top bar
+  # The header bar: the main menu.
+  - id: header
+    label: Header
+  # The header bar's end: a button (a text block's link), a phone.
+  - id: header_actions
+    label: Header actions
+  # A dark band under the header, across the window (the front page's
+  # hero: a slider - a View with the "slider" template - or a text
+  # block: its title, text, links as buttons).
+  - id: hero
+    label: Hero
+  # The column beside the content (partials/main_column.html); under it
+  # on a narrow screen.
+  - id: sidebar
+    label: Sidebar
+  # Between the page's title and its content.
+  - id: content_top
+    label: Content top
+  - id: content_bottom
+    label: Content bottom
+  # Inside the node page (dynamic/page.html, forum/topic.html).
+  - id: content_inline
+    label: Inside content (content page)
+  # A band in the accent under the hero, over the content (figures: a
+  # list, each item's bold part large).
+  - id: highlight
+    label: Highlight
+  # Bands after it, a block each, white and light grey in turn.
+  - id: bands
+    label: Bands
+  # A dark band at the end of the page (a form, contacts).
+  - id: cta
+    label: Call to action
+  # The footer: its blocks side by side in columns.
+  - id: footer
+    label: Footer
+  # The footer's last line (the copyright block on a new site).
+  - id: footer_bottom
+    label: Footer bottom line
+# blocks - the blocks the theme comes with (entity.ThemeBlock): placed
+# when the theme gets its layout for the first time, unless the layout
+# has them.
+blocks:
+  - plugin: copyright
+    region: footer_bottom
+  - title: Powered by Kosatka CMS
+    region: footer_bottom
+    weight: 10
+    body: |
+      <p>Powered by <a href="https://github.com/kosatka-cms/kosatka" target="_blank" rel="noopener">Kosatka CMS</a></p>
+# settings - the theme's options on the Appearance page
+# (entity.ThemeSetting). The accent is an attribute of <html>
+# (partials/theme_head.html): rivet.css reads it.
+settings:
+  - id: accent
+    label: Accent colour
+    type: select
+    default: yellow
+    options:
+      - value: yellow
+        label: Signal yellow
+      - value: orange
+        label: Orange
+      - value: red
+        label: Red
+      - value: blue
+        label: Blue
+  - id: guest_links
+    label: Logging in and registration in the header
+    type: bool
+    default: false

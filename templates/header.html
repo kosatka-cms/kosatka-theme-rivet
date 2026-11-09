@@ -1,0 +1,49 @@
+{{/* The rivet header: the engine's document start (html_start), then
+     the top bar - a dark line across the window with the top_bar
+     region's blocks (an address on the left, the hours and a phone on the
+     right), when it has some - and a white bar with a line in the accent
+     under it - the site's logo when it has one and its name; the header region (the main menu); the header_actions region (a
+     phone, a button: a text block whose links are the theme's buttons);
+     the account: a guest's links (the "guest_links" setting), a
+     signed-in user's menu (the engine's user_menu block). The engine's
+     markup classes are kept (site-header, site-account) so base.css and
+     app.js work as in the engine's look. */}}
+{{define "header"}}
+{{template "html_start" .}}
+
+{{if regionHasBlocks "top_bar" .}}
+<div class="r-topbar">
+    <div class="r-wrap r-topbar-inner">
+        {{template "region_blocks" (dict "Region" (region "top_bar") "Ctx" .)}}
+    </div>
+</div>
+{{end}}
+<header class="site-header r-header" role="banner">
+    <div class="r-wrap r-header-inner">
+        <a class="site-branding r-branding" href="{{localURL "/"}}" rel="home">
+            {{with .siteLogoURI}}<img class="r-logo" src="{{.}}" alt="">{{end}}
+            <span class="site-name">{{.siteName}}</span>
+        </a>
+        {{if regionHasBlocks "header" .}}
+        <div class="site-header-region">
+            {{template "region_blocks" (dict "Region" (region "header") "Ctx" .)}}
+        </div>
+        {{end}}
+        <div class="r-header-actions">
+            {{if regionHasBlocks "header_actions" .}}
+            {{template "region_blocks" (dict "Region" (region "header_actions") "Ctx" .)}}
+            {{end}}
+            {{if .user}}
+            <nav class="site-account" aria-label="{{t "User menu"}}">
+                {{template "block_user_menu" .}}
+            </nav>
+            {{else if themeSetting "guest_links"}}
+            <nav class="site-account" aria-label="{{t "User menu"}}">
+                <a href="/login">{{t "Log in"}}</a>
+                {{if registrationOpen}}<a href="/user/register">{{t "Registration"}}</a>{{end}}
+            </nav>
+            {{end}}
+        </div>
+    </div>
+</header>
+{{end}}
